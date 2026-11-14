@@ -1,0 +1,1767 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Indic OCR API Atlas</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f3f9;--sf:#fff;--ink:#141a2e;--mu:#59627f;--ln:#dbe0ee;--ac:#4338ca;--sh:0 1px 2px #1a22400f,0 8px 22px -10px #1a224033;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b0f1f;--sf:#141a31;--ink:#e9ecf8;--mu:#97a0c0;--ln:#262e50;--ac:#9a9bff;--sh:0 1px 2px #0006;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0b0f1f;--sf:#141a31;--ink:#e9ecf8;--mu:#97a0c0;--ln:#262e50;--ac:#9a9bff;--sh:0 1px 2px #0006;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 'IBM Plex Sans',system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--sf);z-index:30}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sf);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:20px;padding:10px 24px}
+.brand{display:flex;align-items:center;gap:10px;font:800 18px 'Bricolage Grotesque',sans-serif}
+.logo{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:22px;height:22px}.logo i{border-radius:3px}
+.top nav{display:flex;gap:4px;margin-left:auto}
+.top nav button,.pill{padding:6px 14px;border-radius:99px;font-weight:500;color:var(--mu)}
+.top nav button.on{background:var(--ink);color:var(--bg)}
+.ib{width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);display:grid;place-items:center}
+main{max-width:1380px;margin:0 auto;padding:0 24px 60px}
+.hero{padding:44px 0 18px}
+h1{font:800 clamp(30px,5vw,54px)/1.05 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;margin:0 0 12px;max-width:16ch}
+#lead{color:var(--mu);margin:0 0 22px;max-width:62ch}
+.sb{display:flex;align-items:center;gap:12px;background:var(--sf);border:2px solid var(--ink);border-radius:16px;padding:6px 16px;max-width:820px;box-shadow:6px 6px 0 var(--ac)}
+.sb input{flex:1;min-width:0;border:0;background:none;color:var(--ink);font:500 18px 'IBM Plex Sans',sans-serif;padding:10px 0;outline:0}
+.sb kbd{border:1px solid var(--ln);border-radius:6px;padding:0 7px;color:var(--mu);font-size:13px}
+.ex{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;color:var(--mu);font-size:13px}
+.ex button{font:500 12px 'IBM Plex Mono',monospace;border:1px dashed var(--mu);border-radius:8px;padding:3px 9px}
+.tiles{display:flex;gap:10px;overflow-x:auto;padding:22px 0 8px;scrollbar-width:thin}
+.tile{--c:#64748b;flex:none;width:92px;border-radius:14px;padding:10px 8px 8px;text-align:center;background:color-mix(in srgb,var(--c) 13%,var(--sf));border:2px solid transparent;color:var(--ink)}
+.tile b{display:block;font:600 34px/1.3 'Noto Sans','Noto Sans Devanagari','Noto Sans Bengali',system-ui,sans-serif;color:var(--c)}
+.tile span{font-size:12px;font-weight:600}.tile em{display:block;font-style:normal;font-size:11px;color:var(--mu)}
+.tile.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 26%,var(--sf))}
+.lay{display:grid;grid-template-columns:270px 1fr;gap:24px;align-items:start}
+.side{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));max-height:calc(100vh - 80px);overflow:auto;background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:6px 14px;scrollbar-width:thin}
+.fg{border-bottom:1px solid var(--ln);padding:8px 0}.fg:last-child{border:0}
+.fg summary{font-weight:600;cursor:pointer;display:flex;justify-content:space-between;list-style:none}
+.fg summary b{background:var(--ac);color:var(--bg);border-radius:99px;font-size:11px;padding:0 7px}
+.opts{display:flex;flex-direction:column;gap:2px;margin-top:6px;max-height:260px;overflow:auto}
+.op{--c:#64748b;display:flex;align-items:center;gap:8px;text-align:left;padding:4px 8px;border-radius:8px;font-size:13.5px}
+.op i{width:10px;height:10px;border-radius:3px;border:2px solid var(--c);flex:none}
+.op span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.op em{font-style:normal;color:var(--mu);font-size:12px}
+.op:hover{background:color-mix(in srgb,var(--c) 10%,transparent)}.op.on{background:color-mix(in srgb,var(--c) 18%,transparent);font-weight:600}.op.on i{background:var(--c)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.bar .n{font-weight:600;margin-right:auto}.bar .n small{color:var(--mu);font-weight:400}
+select{background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:6px 10px;font:inherit}
+.seg{display:flex;border:1px solid var(--ln);border-radius:10px;overflow:hidden}.seg button{padding:6px 12px;color:var(--mu)}.seg button.on{background:var(--ink);color:var(--bg)}
+.btn{border:1px solid var(--ln);border-radius:10px;padding:6px 12px;background:var(--sf)}
+.ch{--c:#64748b;display:inline-flex;align-items:center;gap:5px;padding:1px 9px;border-radius:99px;font-size:12px;font-weight:500;white-space:nowrap;background:color-mix(in srgb,var(--c) 15%,var(--sf));color:color-mix(in srgb,var(--c) 72%,var(--ink));border:1px solid color-mix(in srgb,var(--c) 32%,transparent)}
+.ch.rm{cursor:pointer}.ch small{opacity:.75}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:0 16px 14px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:9px;text-align:left;overflow:hidden}
+.card:hover{border-color:var(--ac)}.strip{height:6px;margin:0 -16px 4px}
+.hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.api{font:500 15px 'IBM Plex Mono',monospace;word-break:break-all}.int{color:var(--mu);font-size:12.5px;margin-top:-6px}
+.row{display:flex;flex-wrap:wrap;gap:5px}.tech{font-size:12.5px;color:var(--mu);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ft{display:flex;justify-content:space-between;color:var(--mu);font-size:12px;margin-top:auto;border-top:1px solid var(--ln);padding-top:8px}
+.tw{overflow-x:auto;background:var(--sf);border:1px solid var(--ln);border-radius:16px}
+table{border-collapse:collapse;width:100%;font-size:13px}th{position:sticky;top:0;background:var(--sf);text-align:left;color:var(--mu);font-weight:600}
+td,th{padding:7px 10px;border-bottom:1px solid var(--ln);white-space:nowrap}tr.c{cursor:pointer}tr.c:hover td{background:color-mix(in srgb,var(--ac) 8%,transparent)}
+.more{display:block;margin:20px auto;padding:9px 22px;border-radius:99px;border:2px solid var(--ink);font-weight:600}
+.empty{text-align:center;padding:60px 10px;color:var(--mu)}
+.ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;padding-top:28px}
+.pn{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:16px 18px;min-width:0}.pn.w{grid-column:1/-1}
+.pn h3{margin:0 0 12px;font:800 18px 'Bricolage Grotesque',sans-serif}
+.br{--c:#64748b;display:grid;grid-template-columns:minmax(80px,170px) 1fr 40px;gap:10px;align-items:center;width:100%;text-align:left;padding:3px 0;font-size:13px}
+.br div{height:14px;background:color-mix(in srgb,var(--c) 12%,transparent);border-radius:5px}.br i{display:block;height:100%;background:var(--c);border-radius:5px}.br b{text-align:right}
+.hm td,.hm th{padding:4px 8px;text-align:center;border:1px solid var(--bg)}.hm td{min-width:44px}.hm th:first-child,.hm td:first-child{text-align:left}
+.dw{position:fixed;inset:0;background:#0009;z-index:50;display:flex;justify-content:flex-end}
+.dw>div{width:min(640px,100%);background:var(--bg);overflow:auto;padding:0 24px 30px;animation:sl .22s ease-out}
+@keyframes sl{from{transform:translateX(40px);opacity:0}}
+.dw h2{font:500 21px 'IBM Plex Mono',monospace;margin:18px 0 4px;word-break:break-all}
+dl{display:grid;grid-template-columns:130px 1fr;gap:10px 14px;margin:18px 0}dt{color:var(--mu);font-weight:600}dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.cl{display:block;width:18px;height:18px;border-radius:5px;background:var(--c);margin:auto}
+.dw h4{margin:22px 0 8px;font:800 16px 'Bricolage Grotesque',sans-serif}
+@media(max-width:900px){.lay{grid-template-columns:1fr}.side{display:none;position:static;max-height:none}.side.open{display:block}.top{padding:10px 14px}main{padding:0 14px 50px}.ins{grid-template-columns:1fr}}
+@media(min-width:901px){#fb{display:none}}
+@media(prefers-reduced-motion:reduce){.dw>div{animation:none}}
+.fl{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--mu);margin-bottom:10px;font-weight:500}
+.fl input,.fl textarea{background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:8px 10px;font:inherit;width:100%}
+.cb{display:inline-flex;align-items:center;gap:6px;padding:2px 11px;border:1px solid var(--ln);border-radius:99px;font-size:13px;cursor:pointer;background:var(--sf);color:var(--ink)}
+.cb:has(input:checked){background:var(--ac);color:var(--bg);border-color:var(--ac)}.cb input[data-g]{display:none}
+</style></head><body>
+<header class="top"><div class="brand"><span class="logo"><i style="background:#5b5bf0"></i><i style="background:#0891b2"></i><i style="background:#e11d48"></i><i style="background:#d97706"></i></span>Indic OCR API Atlas</div>
+<nav><button data-tab="browse" class="on">Browse</button><button data-tab="insights">Insights</button><button data-tab="admin">Admin</button></nav><button id="th" class="ib" aria-label="Toggle theme">◐</button></header>
+<main>
+<section class="hero"><h1>Find the OCR API that reads your language.</h1><p id="lead"></p>
+<label class="sb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Search APIs, languages, universities, notes…" autocomplete="off"><kbd>/</kbd></label>
+<div class="ex">Try<button data-ex="lang:Tamil mod:Handwritten">lang:Tamil mod:Handwritten</button><button data-ex="univ:IITB type:Recognition">univ:IITB type:Recognition</button><button data-ex="year:2026 level:Page">year:2026 level:Page</button><button data-ex="triplet">triplet</button></div>
+<div id="tiles" class="tiles"></div></section>
+<div id="browse" class="lay"><aside id="side" class="side"></aside><section><div id="bar" class="bar"></div><div id="res"></div></section></div>
+<div id="insights" hidden></div><div id="admin" hidden style="padding-top:28px"></div></main>
+<div id="dw" class="dw" hidden></div>
+<script type="text/plain" id="seed">Internal Name,API Name,Modality,Language (s),Type of API,Level,Date Added,IITD,Rank,Technical Details associated,References,Detailed Remaks
+craft,V-01.00.07.01,Printed,Bodo,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Dogri,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Kashmiri,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Konkani,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Maithili,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Nepali,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Sanskrit,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Santali,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Sindhi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Assamese,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Bengali,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,English,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Gujarati,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Hindi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Kannada,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Malayalam,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Manipuri,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Marathi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Oriya,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Punjabi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Tamil,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Telugu,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Printed,Urdu,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Assamese,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Bengali,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Gujarati,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Hindi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Kannada,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Malayalam,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Manipuri,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Marathi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Oriya,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Punjabi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Tamil,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Telugu,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,Handwritten,Urdu,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Assamese,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Bengali,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Gujarati,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Hindi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Kannada,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Malayalam,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Manipuri,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Marathi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Oriya,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Punjabi,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Tamil,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Telugu,Layout,Page,1-Mar-2022,OpenSource,,,,
+craft,V-01.00.07.01,SceneText,Urdu,Layout,Page,1-Mar-2022,Opensource,,,,
+doctr,V-01.01.07.00,Printed,Bodo,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Dogri,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Kashmiri,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Konkani,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Maithili,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Nepali,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Sanskrit,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Santali,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Sindhi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Assamese,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Bengali,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,English,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Gujarati,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Hindi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Kannada,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Malayalam,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Manipuri,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Marathi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Oriya,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Punjabi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Tamil,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Telugu,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Printed,Urdu,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Assamese,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Bengali,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Gujarati,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Hindi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Kannada,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Malayalam,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Manipuri,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Marathi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Oriya,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Punjabi,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Tamil,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Telugu,Layout,Page,1-Mar-2022,IIITH,,,,
+doctr,V-01.01.07.00,Handwritten,Urdu,Layout,Page,1-Mar-2022,IIITH,,,,
+v2,V-01.02.00.00,Handwritten,Assamese,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Assamese,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Hindi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Hindi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Handwritten,Urdu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,Printed,Urdu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2,V-01.02.00.00,SceneText,Urdu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2.1_robust,V-01.02.01.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_bilingual,V-01.02.02.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,English,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v2_robust,V-01.02.01.00,Printed,Urdu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3,V-01.03.00.00,Handwritten,Assamese,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Bengali,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Hindi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Kannada,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Marathi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Oriya,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Tamil,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Telugu,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3,V-01.03.00.00,Handwritten,Urdu,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v3.1_bilingual,V-01.03.02.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3.1_robust,V-01.03.01.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_bilingual,V-01.03.02.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v3_robust,V-01.03.01.00,Printed,Urdu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v4,V-01.04.00.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,English,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4,V-01.04.00.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4.1,V-01.04.00.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4.1_bilingual,V-01.04.02.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v4.1_robust,V-01.04.01.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v4.1_robustbilingual,V-01.04.03.01,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Low,,,
+v4_bilingual,V-01.04.02.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_bilingual,V-01.04.02.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,Medium,,,
+v4_robust,V-01.04.01.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,English,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robust,V-01.04.01.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Assamese,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Bengali,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Gujarati,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Hindi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Kannada,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Malayalam,Recognition,Word,18-Jan-2023,IIITH,High,,,Best model
+v4_robustbilingual,V-01.04.03.00,Printed,Manipuri,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Marathi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Oriya,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Punjabi,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Tamil,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4_robustbilingual,V-01.04.03.00,Printed,Telugu,Recognition,Word,18-Jan-2023,IIITH,High,,,
+v4.2,V-01.04.00.02,Printed,Telugu,Recognition,Word,8-Feb-2023,IIITH,Low,,,
+v4.2_bilingual,V-01.04.02.02,Printed,Telugu,Recognition,Word,8-Feb-2023,IIITH,Low,,,
+v4.2_robust,V-01.04.01.02,Printed,Telugu,Recognition,Word,8-Feb-2023,IIITH,Low,,,
+v4.2_robustbilingual,V-01.04.03.02,Printed,Telugu,Recognition,Word,8-Feb-2023,IIITH,Low,,,
+tesseract,Tesseract-V5,Printed,Assamese,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Bengali,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,English,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Gujarati,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Hindi,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Kannada,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Malayalam,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Marathi,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Oriya,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Punjabi,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Tamil,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Telugu,Recognition,Word,20-Feb-2023,OpenSource,,,,
+tesseract,Tesseract-V5,Printed,Urdu,Recognition,Word,20-Feb-2023,OpenSource,,,,
+v4.3u,V-01.04.00.03,Printed,Telugu,Recognition,Word,20-Feb-2023,IIITH,Low,,,
+v4.3u_bilingual,V-01.04.02.03,Printed,Telugu,Recognition,Word,20-Feb-2023,IIITH,Low,,,
+v4.3u_robust,V-01.04.01.03,Printed,Telugu,Recognition,Word,20-Feb-2023,IIITH,Low,,,
+v4.3u_robustbilingual,V-01.04.03.03,Printed,Telugu,Recognition,Word,20-Feb-2023,IIITH,Low,,,
+v4.4l,V-01.04.00.04,Printed,Hindi,Recognition,Word,2-Mar-2023,IIITH,Low,,,
+v4.4l_bilingual,V-01.04.02.04,Printed,Hindi,Recognition,Word,2-Mar-2023,IIITH,Low,,,
+v4.4l_robust,V-01.04.01.04,Printed,Hindi,Recognition,Word,2-Mar-2023,IIITH,Low,,,
+v4.4l_robustbilingual,V-01.04.03.04,Printed,Hindi,Recognition,Word,2-Mar-2023,IIITH,Low,,,
+v4.5u,V-01.04.00.05,Printed,Telugu,Recognition,Word,16-Mar-2023,IIITH,Low,,,
+v4.5u_bilingual,V-01.04.02.05,Printed,Telugu,Recognition,Word,16-Mar-2023,IIITH,Low,,,
+v4.5u_robust,V-01.04.01.05,Printed,Telugu,Recognition,Word,16-Mar-2023,IIITH,Low,,,
+v4.5u_robustbilingual,V-01.04.03.05,Printed,Telugu,Recognition,Word,16-Mar-2023,IIITH,Low,,,
+v4_robust,V-01.04.01.00,Printed,Bodo,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Dogri,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Kashmiri,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Konkani,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Maithili,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Nepali,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Sanskrit,Recognition,Word,4-Apr-2023,IIITH,High,,,Bengali model is used for now
+v4_robust,V-01.04.01.00,Printed,Santali,Recognition,Word,4-Apr-2023,IIITH,High,,,Hindi model is used for now
+v4_robust,V-01.04.01.00,Printed,Sindhi,Recognition,Word,4-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Telugu,Recognition,Word,10-Apr-2023,IIITH,High,,,Parseq model given by harsh
+v4.6_robust,V-01.04.01.06,Printed,Bengali,Recognition,Word,10-Apr-2023,IIITH,Low,,,Model added for Ajoy to test orientation
+v3_st,V-01.03.00.00,SceneText,Assamese,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Bengali,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Gujarati,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Hindi,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Kannada,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Malayalam,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Manipuri,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Marathi,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Oriya,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Punjabi,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Tamil,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v3_st,V-01.03.00.00,SceneText,Urdu,Recognition,Word,20-Apr-2023,IIITH,High,,,
+v4.7u,V-01.04.00.07,Printed,Telugu,Recognition,Word,20-Apr-2023,IIITH,Low,,,This is v4 model only but trained from scratch on separate upnishad dataset
+v4.7u_robust,V-01.04.01.07,Printed,Telugu,Recognition,Word,20-Apr-2023,IIITH,Low,,,This is v4 model only but trained from scratch on separate upnishad dataset
+v4.8u,V-01.04.00.08,Printed,Telugu,Recognition,Word,20-Apr-2023,IIITH,Low,,,This is the v4 model finetuned on upnishad documents
+v4.8u_robust,V-01.04.01.08,Printed,Telugu,Recognition,Word,20-Apr-2023,IIITH,Low,,,This is the v4 model finetuned on upnishad documents
+v4.10u,V-01.04.00.10,Printed,Telugu,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the v4 model finetuned on upnishad documents
+v4.10u_robust,V-01.04.01.10,Printed,Telugu,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the v4 model finetuned on upnishad documents
+v4.11l,V-01.04.00.11,Printed,Hindi,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the model finetuned on 30 loksabha pages
+v4.11l_bilingual,V01.04.02.11,Printed,Hindi,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the model finetuned on 30 loksabha pages
+v4.11l_robust,V-01.04.01.11,Printed,Hindi,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the model finetuned on 30 loksabha pages
+v4.11l_robustbilingual,V-01.04.03.11,Printed,Hindi,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is the model finetuned on 30 loksabha pages
+v4.9u,V-01.04.00.09,Printed,Telugu,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is v4 model only but trained from scratch on separate upnishad dataset
+v4.9u_robust,V-01.04.01.09,Printed,Telugu,Recognition,Word,5-Jun-2023,IIITH,Low,,,This is v4 model only but trained from scratch on separate upnishad dataset
+v6_cegis,NA,Handwritten,English,Recognition,Character,19-Jun-2023,IIITH,,,,This is the character level TrOCR model developed by jasjeet
+v4.12u,V-01.04.00.12,Printed,Telugu,Recognition,Word,26-Jun-2023,IIITH,Low,,,This is the v4 basic mdoel given by Ajoy to check for pytorch version inconsistency
+v4.13,V-01.04.00.13,Printed,English,Recognition,Word,30-Jun-2023,IIITH,Low,,,This is the v4 english model trained by Ajoy for LTRC usecase
+v4.14u,V-01.04.00.14,Printed,Telugu,Recognition,Word,15-Jul-2023,IIITH,Low,,,This is the Upnishad finetuned model. Ajoy also added the option to output the confidence of the words in the model via a third field in the test_gt_.. but this feature is still not yet implemented in the API.
+v4.14u_robust,V-01.04.01.14,Printed,Telugu,Recognition,Word,15-Jul-2023,IIITH,Low,,,This is the Upnishad finetuned model. Ajoy also added the option to output the confidence of the words in the model via a third field in the test_gt_.. but this feature is still not yet implemented in the API.
+v3,V-01.03.00.00,Handwritten,English,Recognition,Word,2-Aug-2023,IIITH,Medium,,,This is the english HW model primarly used by Amazon crowd collection pages
+v5,V-01.05.00.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,English,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Kannada,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Sanskrit,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,,,,
+v5,V-01.05.00.00,Printed,Telugu,Recognition,Word,11-Oct-2023,IIITH,,,,Normal v5 - 5.0
+v5_bilingual,V-01.05.02.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Kannada,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Sanskrit,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_bilingual,V-01.05.02.00,Printed,Telugu,Recognition,Word,11-Oct-2023,IIITH,Low,,,
+v5_robust,V-01.05.01.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,English,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Sanskrit,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robust,V-01.05.01.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Sanskrit,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robustbilingual,V-01.05.03.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,Medium,,,
+v5_robuster,V-01.05.04.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robuster,V-01.05.04.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Assamese,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Bengali,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Gujarati,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Hindi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Malayalam,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Manipuri,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Marathi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Oriya,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Punjabi,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Sanskrit,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Santali,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Tamil,Recognition,Word,11-Oct-2023,IIITH,High,,,
+v5_robusterbilingual,V-01.05.05.00,Printed,Telugu,Recognition,Word,11-Oct-2023,IIITH,High,,,v5.5
+v5.1.1u,V-01.05.00.01,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,V5 (denotes the major model version) .1 (denotes the first finetune) .1 (denotes the first variation of the basic model)
+v5.1.1u_bilingual,V-01.05.02.01,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.1u_robust,V-01.05.01.01,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.1u_robustbilingual,V-01.05.03.01,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.2u,V-01.05.00.02,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,synthetic
+v5.1.2u_bilingual,V-01.05.02.02,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.2u_robust,V-01.05.01.02,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.2u_robustbilingual,V-01.05.03.02,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.3u,V-01.05.00.03,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+v5.1.3u_bilingual,V-01.05.02.03,Printed,Telugu,Recognition,Word,25-Oct-2023,IIITH,Low,,,
+dbnet,V-04.00.07.00,SceneText,Assamese,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Bengali,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Gujarati,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Hindi,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Kannada,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Malayalam,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Manipuri,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Marathi,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Oriya,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Punjabi,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Tamil,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Telugu,Layout,Page,15-Nov-2023,IITJ,,,,
+dbnet,V-04.00.07.00,SceneText,Urdu,Layout,Page,15-Nov-2023,IITJ,,,,
+v2_doctr,V-01.01.07.01,Printed,Bodo,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Dogri,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Kashmiri,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Konkani,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Maithili,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Nepali,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Sanskrit,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Santali,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Sindhi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Assamese,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Bengali,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,English,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Gujarati,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Hindi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Kannada,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Malayalam,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Manipuri,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Marathi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Oriya,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Punjabi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Tamil,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Telugu,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Printed,Urdu,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Assamese,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Bengali,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Gujarati,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Hindi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Kannada,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Malayalam,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Manipuri,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Marathi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Oriya,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Punjabi,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Tamil,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Telugu,Layout,Page,1-Dec-2023,IIITH,,,,
+v2_doctr,V-01.01.07.01,Handwritten,Urdu,Layout,Page,1-Dec-2023,IIITH,,,,
+openseg,OpenSeg,Printed,Bodo,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Dogri,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Kashmiri,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Konkani,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Maithili,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Nepali,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Sanskrit,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Santali,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Sindhi,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Assamese,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Bengali,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,English,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Gujarati,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Hindi,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Kannada,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Malayalam,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Manipuri,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Marathi,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Oriya,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Punjabi,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Tamil,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Telugu,Layout,Page,1-Feb-2024,IIITH,,,,
+openseg,OpenSeg,Printed,Urdu,Layout,Page,1-Feb-2024,IIITH,,,,
+v5_urdur2,V-01.05.01.02,Printed,Urdu,Recognition,Line,21-Mar-2024,IIITH,,,,V-01.05.01.02
+v4.15m,V-01.04.00.15,Printed,Bodo,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Dogri,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Kashmiri,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Konkani,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Maithili,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Nepali,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Sanskrit,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Santali,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+v4.15m,V-01.04.00.15,Printed,Sindhi,Recognition,Word,16-Apr-2024,IIITH,Low,,,Model given by Alik by finetuning on mixture of real + synthetic images
+V-01.06.00.00,V-01.06.00.00,Handwritten,Assamese,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Bengali,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Gujarati,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Hindi,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Kannada,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Malayalam,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Manipuri,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Marathi,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Oriya,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Punjabi,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Tamil,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Telugu,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.06.00.00,V-01.06.00.00,Handwritten,Urdu,Recognition,Word,1-May-2024,IIITH,,,,Handwritten models given by Ajoy from nltmdev:/home/ajoy/0_experiments/2_handwritten/V6_model (ICPR Models)
+V-01.04.00.18,V-01.04.00.18,Printed,Hindi,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.00.18,V-01.04.00.18,Printed,English,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.00.19,V-01.04.00.19,Printed,Hindi,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.00.19,V-01.04.00.19,Printed,English,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.01.18,V-01.04.01.18,Printed,Hindi,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.01.18,V-01.04.01.18,Printed,English,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.01.19,V-01.04.01.19,Printed,Hindi,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.01.19,V-01.04.01.19,Printed,English,Recognition,Word,25-Jun-2024,IIITH,,,,Finetuned models for loksabha documents
+V-01.04.00.21,V-01.04.00.21,SceneText,Bengali,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Hindi,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Marathi,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Oriya,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Punjabi,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Tamil,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Telugu,Recognition,Word,26-Jun-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+textron,V-03.00.07.00,Printed,Bodo,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Dogri,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Kashmiri,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Konkani,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Maithili,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Nepali,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Sanskrit,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Santali,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Sindhi,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Assamese,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Bengali,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,English,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Gujarati,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Hindi,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Kannada,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Malayalam,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Manipuri,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Marathi,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Oriya,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Punjabi,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Tamil,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Telugu,Layout,Page,1-Jul-2024,IITB,,,,
+textron,V-03.00.07.00,Printed,Urdu,Layout,Page,1-Jul-2024,IITB,,,,
+google,GoogleOCR,Printed,Bodo,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Dogri,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Kashmiri,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Konkani,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Maithili,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Nepali,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Sanskrit,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Santali,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Sindhi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Assamese,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Bengali,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,English,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Gujarati,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Hindi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Kannada,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Malayalam,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Manipuri,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Marathi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Oriya,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Punjabi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Tamil,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Telugu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Printed,Urdu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Assamese,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Bengali,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Gujarati,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Hindi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Kannada,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Malayalam,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Manipuri,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Marathi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Oriya,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Punjabi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Tamil,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Telugu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,Handwritten,Urdu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Assamese,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Bengali,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Gujarati,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Hindi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Kannada,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Malayalam,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Manipuri,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Marathi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Oriya,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Punjabi,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Tamil,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Telugu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+google,GoogleOCR,SceneText,Urdu,Recognition,Page,1-Jul-2024,Commercial,High,,,
+V-01.03.00.01,V-01.03.00.01,SceneText,Malayalam,Recognition,Word,2-Jul-2024,IIITH,,,,Harsh malayalam finetuned model on data given by Ajoy
+V-01.04.01.20,V-01.04.01.20,Printed,Hindi,Recognition,Word,16-Jul-2024,IIITH,,,,Hindi robust model finetuned on different fonts for DIBD pages
+V-03.02.00.01,V-03.02.00.01,Printed,Assamese,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Bengali,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Gujarati,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Hindi,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Kannada,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Malayalam,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Manipuri,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Punjabi,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Tamil,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Telugu,Recognition,Word,16-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Marathi,Recognition,Word,29-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Oriya,Recognition,Word,29-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-03.02.00.01,V-03.02.00.01,Printed,Urdu,Recognition,Word,29-Jul-2024,IITB,,,,IITB Word level models shared by Badri at the start of July
+V-01.04.00.21,V-01.04.00.21,SceneText,Kannada,Recognition,Word,12-Aug-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+V-01.04.00.21,V-01.04.00.21,SceneText,Malayalam,Recognition,Word,12-Aug-2024,IIITH,,,,SceneText models given by Ajoy at 10.4.16.41:/home/ajoy/01_Experiments/00_New_SceneText_Experiments/CRNN
+lipikar,V-02.01.00.00,SceneText,Assamese,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Bengali,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,English,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Gujarati,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Hindi,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Kannada,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Malayalam,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Oriya,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Punjabi,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Tamil,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,SceneText,Telugu,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Assamese,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Bengali,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,English,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Gujarati,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Hindi,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Kannada,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Malayalam,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Oriya,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Punjabi,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Tamil,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+lipikar,V-02.01.00.00,Printed,Telugu,Recognition,Word,22-Aug-2024,IITD,,,,IITD model given (V-02.00.00.00)
+v1_pu,V-05.01.00.00,Printed,Bodo,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+v1_pu,V-05.01.00.00,Printed,Dogri,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+v1_pu,V-05.01.00.00,Printed,Hindi,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+v1_pu,V-05.01.00.00,Printed,Maithili,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+v1_pu,V-05.01.00.00,Printed,Punjabi,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+v1_pu,V-05.01.00.00,Printed,Sindhi,Recognition,Page,22-Aug-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+V-01.04.06.00,V-01.04.06.00,Printed,Santali,Recognition,Word,13-Sep-2024,IIITH,,,,Santali model with Ol Chiki script given by Ajoy
+V-04.00.00.01,V-04.00.00.01,SceneText,Assamese,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Gujarati,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Hindi,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Kannada,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Malayalam,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Punjabi,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.01,V-04.00.00.01,SceneText,Tamil,Recognition,Word,13-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+v1_pu,V-05.01.00.00,Printed,Konkani,Recognition,Page,20-Sep-2024,PU,,,,PU model given by Ankur (V-05.01.00.00)
+V-01.07.00.00,V-01.07.00.00,Printed,Assamese,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Bengali,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Gujarati,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Hindi,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Kannada,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Malayalam,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Manipuri,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Marathi,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Punjabi,Recognition,Word,26-Sep-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-04.00.00.02,V-04.00.00.02,SceneText,Assamese,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Bengali,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Gujarati,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Hindi,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Marathi,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Punjabi,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Oriya,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Punjabi,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Tamil,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-04.00.00.02,V-04.00.00.02,SceneText,Telugu,Recognition,Word,28-Sep-2024,IITJ,,,,"ST model by IITJ, this is the old model itself given by Devesh that is re-integrated into the API; shared by Anik De"
+V-03.02.00.02,V-03.02.00.02,Handwritten,Oriya,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Urdu,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Bengali,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Gujarati,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Hindi,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Kannada,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Malayalam,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Punjabi,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Tamil,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Handwritten,Telugu,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the HW models
+V-03.02.00.02,V-03.02.00.02,Printed,Marathi,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Oriya,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Urdu,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Assamese,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Bengali,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Gujarati,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Hindi,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Kannada,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Malayalam,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Manipuri,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Punjabi,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Tamil,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+V-03.02.00.02,V-03.02.00.02,Printed,Telugu,Recognition,Word,29-Sep-2024,IITB,,,,IITB Word level models integrated after the physical PI meeting alongwith the Printed models
+v2_pu,V-05.02.00.00,Printed,"English, Hindi, Punjabi",Recognition,Page,1-Oct-2024,"PU, IIITH",High,,,
+tabledet,EMBLEM,Printed,NA,Table,Page,1-Oct-2024,IITB,,,,
+tablerec,SPRINT,Printed,NA,Table,Table,1-Oct-2024,IITB,,,,
+tableextract,TableExtract,Printed,NA,Table,Page,1-Oct-2024,IITB,,,,
+fontattrib,FontAttrib,Printed,NA,Layout,Page,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Bengali,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,English,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Gujarati,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Hindi,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Kannada,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Malayalam,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Oriya,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Punjabi,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Tamil,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Telugu,Layout,Word,1-Oct-2024,IITB,,,,
+scriptdet,ScriptDet,Printed,Urdu,Layout,Word,1-Oct-2024,IITB,,,,
+stdetect,STScriptDetect,SceneText,Assamese,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Bengali,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Gujarati,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Hindi,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Kannada,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Malayalam,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Manipuri,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Marathi,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Oriya,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Punjabi,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Tamil,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Telugu,Script Detection,Word,21-Oct-2024,IITJ,,,,
+stdetect,STScriptDetect,SceneText,Urdu,Script Detection,Word,21-Oct-2024,IITJ,,,,
+V-01.05.00.00,V-01.05.00.00,Handwritten,Bengali,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Gujarati,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Hindi,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Kannada,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Malayalam,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Oriya,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Punjabi,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Tamil,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Telugu,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.05.00.00,V-01.05.00.00,Handwritten,Urdu,Recognition,Word,22-Oct-2024,IIITH,,,,Parseq HW models by Lalita. pretrained on printed and finetuned on ~60K HW santoshini hw words
+V-01.07.00.00,V-01.07.00.00,Printed,English,Recognition,Word,24-Oct-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Tamil,Recognition,Word,24-Oct-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.07.00.00,V-01.07.00.00,Printed,Telugu,Recognition,Word,24-Oct-2024,IIITH,,,,V7 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V7_Pintered_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Assamese,Recognition,Word,24-Oct-2024,IIITH,,,"external links, github, readmes..",V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Bengali,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,English,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Gujarati,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Hindi,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Kannada,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Malayalam,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Manipuri,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Marathi,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Punjabi,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Tamil,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+V-01.08.00.00,V-01.08.00.00,Printed,Telugu,Recognition,Word,24-Oct-2024,IIITH,,,,V8 models by Ajoy at path ajoy@10.4.16.41:./01_Experiments/0_V8_Printed_Experiments/2_trained_model
+yolo_v2,V-01.02.07.02,Handwritten,Assamese,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Bengali,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Gujarati,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Hindi,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Kannada,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Malayalam,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Manipuri,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Marathi,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Oriya,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Punjabi,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Tamil,Layout,Page,28-Oct-2024,IIITH,,,,
+yolo_v2,V-01.02.07.02,Handwritten,Telugu,Layout,Page,28-Oct-2024,IIITH,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Assamese,Recognition,Page,1-Nov-2024,CDAC,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Bengali,Recognition,Page,1-Nov-2024,CDAC,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Oriya,Recognition,Page,1-Nov-2024,CDAC,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Assamese,Recognition,Word,1-Nov-2024,CDAC,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Bengali,Recognition,Word,1-Nov-2024,CDAC,,,,
+V-06.00.00.00,V-06.00.00.00,Printed,Oriya,Recognition,Word,1-Nov-2024,CDAC,,,,
+v1_preprocess,PUPreprocess,Printed,NA,Pre-Processing,Page,1-Dec-2024,PU,,"Image Binarization, noise removal, shadown removal, Skewness correction",,
+V-07.00.00.01,V-07.00.00.01,Printed,Bodo,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Dogri,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Kashmiri,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Konkani,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Maithili,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Nepali,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Sanskrit,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Santali,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Sindhi,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Assamese,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Bengali,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,English,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Gujarati,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Hindi,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Kannada,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Malayalam,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Manipuri,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Marathi,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Oriya,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Punjabi,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Tamil,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.00.00.01,V-07.00.00.01,Printed,Telugu,Pipeline,Page,1-Dec-2024,IIITH,High,openseg + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Bodo,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Dogri,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Kashmiri,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Konkani,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Maithili,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Nepali,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Sanskrit,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Santali,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Sindhi,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Assamese,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Bengali,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,English,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Gujarati,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Hindi,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Kannada,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Malayalam,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Manipuri,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Marathi,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Oriya,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Punjabi,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Tamil,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.02.00.01,V-07.02.00.01,Printed,Telugu,Pipeline,Page,1-Dec-2024,IIITH,High,v2_doctr + v4_robust,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Assamese,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Bengali,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Gujarati,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Hindi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Kannada,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Malayalam,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Manipuri,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Marathi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Oriya,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Punjabi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Tamil,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Telugu,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.03.00.06,V-07.03.00.06,Handwritten,Urdu,Pipeline,Page,1-Dec-2024,IIITH,High,craft + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Assamese,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Bengali,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Gujarati,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Hindi,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Kannada,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Malayalam,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Manipuri,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Marathi,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Oriya,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Punjabi,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Tamil,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Telugu,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.04.00.06,V-07.04.00.06,Handwritten,Urdu,Pipeline,Page,1-Dec-2024,IIITH,High,yolo_v2 + V-01.06.00.00,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,English,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Assamese,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Bengali,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Gujarati,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Hindi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Kannada,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Malayalam,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Manipuri,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Marathi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Oriya,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Punjabi,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Tamil,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Telugu,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.03,V-07.03.00.03,Handwritten,Urdu,Pipeline,Page,1-Dec-2024,IIITH,High,craft + v3,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Assamese,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Bengali,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Gujarati,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Hindi,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Marathi,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Oriya,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Tamil,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.05,V-07.03.00.05,SceneText,Telugu,Pipeline,Page,1-Dec-2024,"IIITH, IITJ",,craft + V-04.00.00.02,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Assamese,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Bengali,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,English,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Gujarati,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Hindi,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Kannada,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Malayalam,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Oriya,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Tamil,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.03.00.02,V-07.03.00.02,SceneText,Telugu,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,craft + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Assamese,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Bengali,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,English,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Gujarati,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Hindi,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Kannada,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Malayalam,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Oriya,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Tamil,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.02,V-07.00.00.02,Printed,Telugu,Pipeline,Page,1-Dec-2024,"IIITH, IITD",,openseg + lipikar,,
+V-07.00.00.04,V-07.00.00.04,Printed,Marathi,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Oriya,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Urdu,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Assamese,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Bengali,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Gujarati,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Hindi,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Kannada,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Malayalam,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Manipuri,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Tamil,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.00.00.04,V-07.00.00.04,Printed,Telugu,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,openseg + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Oriya,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Urdu,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Bengali,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Gujarati,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Hindi,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Kannada,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Malayalam,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Punjabi,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Tamil,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+V-07.04.00.04,V-07.04.00.04,Handwritten,Telugu,Pipeline,Page,1-Dec-2024,"IIITH, IITB",,yolo_v2 + V-03.02.00.02,,
+--,--,SceneText,Marathi,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Oriya,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Urdu,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Assamese,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Bengali,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Gujarati,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Hindi,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Kannada,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Malayalam,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Manipuri,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Punjabi,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Tamil,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+--,--,SceneText,Telugu,Layout,Word,26-Dec-2024,IITJ,,Script detection API,,
+V-01.10.01.01,V-01.10.01.01,Printed,Assamese,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Bengali,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,English,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Gujarati,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Hindi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Kannada,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Malayalam,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Manipuri,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Marathi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Oriya,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Punjabi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Tamil,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Telugu,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Assamese,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Bengali,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,English,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Gujarati,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Hindi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Kannada,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Malayalam,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Manipuri,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Marathi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Oriya,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Punjabi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Tamil,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.02,V-01.10.01.02,Printed,Telugu,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Assamese,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Bengali,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,English,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Gujarati,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Hindi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Kannada,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Malayalam,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Manipuri,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Marathi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Oriya,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Punjabi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Tamil,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.03,V-01.10.01.03,Printed,Telugu,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Assamese,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Bengali,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,English,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Gujarati,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Hindi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Kannada,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Malayalam,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Manipuri,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Marathi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Oriya,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Punjabi,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Tamil,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.04,V-01.10.01.04,Printed,Telugu,Recognition,Word,8-Jan-2025,IIITH,High,,,
+V-01.10.01.01,V-01.10.01.01,Printed,Meetei,Recognition,Word,18-Jan-2025,IIITH,High,,,
+surya,SuryaOCR,Printed,Assamese,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Bengali,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,English,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Gujarati,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Hindi,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Kannada,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Malayalam,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Marathi,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Nepali,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Oriya,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Punjabi,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Sanskrit,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Sindhi,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Tamil,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+surya,SuryaOCR,Printed,Telugu,Recognition,Page,20-Jan-2025,OpenSource,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Assamese,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Bengali,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Gujarati,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Hindi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Kannada,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Malayalam,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Manipuri,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Marathi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Oriya,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Punjabi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Tamil,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.01,V-01.10.03.01,Printed,Telugu,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Assamese,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Bengali,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Gujarati,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Hindi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Kannada,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Malayalam,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Manipuri,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Marathi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Oriya,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Punjabi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Tamil,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.02,V-01.10.03.02,Printed,Telugu,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Assamese,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Bengali,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Gujarati,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Hindi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Kannada,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Malayalam,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Manipuri,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Marathi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Oriya,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Punjabi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Tamil,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.03,V-01.10.03.03,Printed,Telugu,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Assamese,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Bengali,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Gujarati,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Hindi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Kannada,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Malayalam,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Manipuri,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Marathi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Oriya,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Punjabi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Tamil,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.04,V-01.10.03.04,Printed,Telugu,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Assamese,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Bengali,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Gujarati,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Hindi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Kannada,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Malayalam,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Manipuri,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Marathi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Oriya,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Punjabi,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Tamil,Recognition,Word,23-Jan-2025,IIITH,High,,,
+V-01.10.03.05,V-01.10.03.05,Printed,Telugu,Recognition,Word,23-Jan-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Assamese,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Bengali,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Gujarati,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Hindi,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Kannada,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Malayalam,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Manipuri,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Marathi,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Oriya,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Punjabi,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Tamil,Layout,Page,28-Feb-2025,IIITH,High,,,
+yolo_ro,V-01.02.07.03,Handwritten,Telugu,Layout,Page,28-Feb-2025,IIITH,High,,,
+easyocr,EasyOCR,Printed,Assamese,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Bengali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,English,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Hindi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Kannada,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Maithili,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Marathi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Nepali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Telugu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Printed,Urdu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Assamese,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Bengali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,English,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Hindi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Kannada,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Maithili,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Marathi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Nepali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Telugu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,Handwritten,Urdu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Assamese,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Bengali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,English,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Hindi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Kannada,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Maithili,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Marathi,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Nepali,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Telugu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+easyocr,EasyOCR,SceneText,Urdu,Recognition,Page,8-Mar-2025,OpenSource,Medium,,,
+textbpnpp,V-04.00.07.01,SceneText,Assamese,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Bengali,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Gujarati,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Hindi,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Kannada,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Malayalam,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Manipuri,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Marathi,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Oriya,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Punjabi,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Tamil,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Telugu,Layout,Page,21-Mar-2025,IITJ,High,,,
+textbpnpp,V-04.00.07.01,SceneText,Urdu,Layout,Page,21-Mar-2025,IITJ,High,,,
+V-02.01.00.01,V-02.01.00.01,Printed,Assamese,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Bengali,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Gujarati,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Hindi,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Kannada,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Malayalam,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Manipuri,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Marathi,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Oriya,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Punjabi,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Tamil,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Telugu,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed,Urdu,Recognition,Word,6-Aug-2025,IITD,High,Triplet models only API,,
+V-01.10.01.05,V-01.10.01.05,Printed,Punjabi,Recognition,Word,8-May-2025,IIITH,High,,,
+V-03.01,V-03.01,Printed,Urdu,Layout,Line,21-May-2025,IIITH,High,,,URDU Printed line segmentation models given by Ajoy : ajoy@nltm-dev-2:~/01_Experiments/0_V20_Urdu_Line_Detection/3_current_model
+V-03.02,V-03.02,Printed,Urdu,Layout,Line,21-May-2025,IIITH,High,,,URDU Printed line segmentation models given by Ajoy : ajoy@nltm-dev-2:~/01_Experiments/0_V20_Urdu_Line_Detection/3_current_model
+V-03.03,V-03.03,Printed,Urdu,Layout,Line,21-May-2025,IIITH,High,,,URDU Printed line segmentation models given by Ajoy : ajoy@nltm-dev-2:~/01_Experiments/0_V20_Urdu_Line_Detection/3_current_model
+V-03.04,V-03.04,Printed,Urdu,Layout,Line,21-May-2025,IIITH,High,,,URDU Printed line segmentation models given by Ajoy : ajoy@nltm-dev-2:~/01_Experiments/0_V20_Urdu_Line_Detection/3_current_model
+V-04.01,V-04.01,Printed,Bodo,Layout,Page,21-May-2025,IIITH,High,,,Word level Segmentation model given by Ajoy for printed Documents : ajoy@nltm-dev-2:~/01_Experiments/0_V15_Printed_Word_Segmentation/003_newer_model
+V-04.01,V-04.01,Printed,Dogri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Kashmiri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Konkani,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Maithili,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Nepali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Sanskrit,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Santali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Sindhi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Assamese,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Bengali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,English,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Gujarati,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Hindi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Kannada,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Malayalam,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Manipuri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Marathi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Oriya,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Punjabi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Tamil,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Telugu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.01,V-04.01,Printed,Urdu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Bodo,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Dogri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Kashmiri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Konkani,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Maithili,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Nepali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Sanskrit,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Santali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Sindhi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Assamese,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Bengali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,English,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Gujarati,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Hindi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Kannada,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Malayalam,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Manipuri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Marathi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Oriya,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Punjabi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Tamil,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Telugu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.02,V-04.02,Printed,Urdu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Bodo,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Dogri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Kashmiri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Konkani,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Maithili,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Nepali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Sanskrit,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Santali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Sindhi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Assamese,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Bengali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,English,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Gujarati,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Hindi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Kannada,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Malayalam,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Manipuri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Marathi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Oriya,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Punjabi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Tamil,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Telugu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.03,V-04.03,Printed,Urdu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Bodo,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Dogri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Kashmiri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Konkani,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Maithili,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Nepali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Sanskrit,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Santali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Sindhi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Assamese,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Bengali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,English,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Gujarati,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Hindi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Kannada,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Malayalam,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Manipuri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Marathi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Oriya,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Punjabi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Tamil,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Telugu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.04,V-04.04,Printed,Urdu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Bodo,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Dogri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Kashmiri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Konkani,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Maithili,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Nepali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Sanskrit,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Santali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Sindhi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Assamese,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Bengali,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,English,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Gujarati,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Hindi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Kannada,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Malayalam,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Manipuri,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Marathi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Oriya,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Punjabi,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Tamil,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Telugu,Layout,Page,21-May-2025,IIITH,High,,,
+V-04.05,V-04.05,Printed,Urdu,Layout,Page,21-May-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Bodo,Layout,Page,4-Jun-2025,IIITH,High,2 Way Merge Algorithm with combination of OpenSeg + V-04.02,,
+V-05.01,V-05.01,Printed,Dogri,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Kashmiri,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Konkani,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Maithili,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Nepali,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Sanskrit,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Santali,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Sindhi,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Assamese,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Bengali,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,English,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Gujarati,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Hindi,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Kannada,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Malayalam,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Manipuri,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Marathi,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Oriya,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Punjabi,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Tamil,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Telugu,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.01,V-05.01,Printed,Urdu,Layout,Page,4-Jun-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Bodo,Layout,Page,7-Jul-2025,IIITH,High,3 Way Merge Algorithm with combination of OpenSeg + V-04.02 + Craft,,
+V-05.02,V-05.02,Printed,Dogri,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Kashmiri,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Konkani,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Maithili,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Nepali,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Sanskrit,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Santali,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Sindhi,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Assamese,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Bengali,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,English,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Gujarati,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Hindi,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Kannada,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Malayalam,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Manipuri,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Marathi,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Oriya,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Punjabi,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Tamil,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Telugu,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.02,V-05.02,Printed,Urdu,Layout,Page,7-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Bodo,Layout,Page,14-Jul-2025,IIITH,High,New Version of 3 Way Merge Algorithm with combination of OpenSeg + V-04.02 + Craft with more improvements,,
+V-05.03,V-05.03,Printed,Dogri,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Kashmiri,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Konkani,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Maithili,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Nepali,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Sanskrit,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Santali,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Sindhi,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Assamese,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Bengali,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,English,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Gujarati,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Hindi,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Kannada,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Malayalam,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Manipuri,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Marathi,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Oriya,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Punjabi,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Tamil,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Telugu,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-05.03,V-05.03,Printed,Urdu,Layout,Page,14-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Bodo,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Dogri,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Kashmiri,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Konkani,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Maithili,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Nepali,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Sanskrit,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Santali,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Sindhi,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Assamese,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Bengali,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,English,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Gujarati,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Hindi,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Kannada,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Malayalam,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Manipuri,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Marathi,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Oriya,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Punjabi,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Tamil,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Telugu,Layout,Page,21-Jul-2025,IIITH,High,,,
+V-04.06,V-04.06,Printed,Urdu,Layout,Page,21-Jul-2025,IIITH,High,,,
+OpenYoja,OpenYoja,Printed,Bodo,Layout,Page,7-Aug-2025,IIITH,,Combination of Openseg + V-04.06 with the new combine script given by GSL. This is aka V-05.05,,
+OpenYoja,OpenYoja,Printed,Dogri,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Kashmiri,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Konkani,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Maithili,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Nepali,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Sanskrit,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Santali,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Sindhi,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Assamese,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Bengali,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,English,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Gujarati,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Hindi,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Kannada,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Malayalam,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Manipuri,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Marathi,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Oriya,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Punjabi,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Tamil,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Telugu,Layout,Page,7-Aug-2025,IIITH,,,,
+OpenYoja,OpenYoja,Printed,Urdu,Layout,Page,7-Aug-2025,IIITH,,,,
+v2.1_preprocess,V2.1_PreProcess,Printed,NA,Pre-Processing,Page,12-Jun-2025,IIITH,,"Image Binarization, DeSkew (By Hitharth) (version 1)",,
+v2.2_preprocess,V2.2_PreProcess,Printed,NA,Pre-Processing,Page,12-Jun-2025,IIITH,,"Image Binarization, DeSkew (By Hitarth) (version 2)",,
+V2_detect,V2_detect,SceneText,Assamese,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Bengali,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Gujarati,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Hindi,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Kannada,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Malayalam,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Manipuri,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Marathi,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Punjabi,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Oriya,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Punjabi,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Tamil,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Telugu,Recognition,Word,6-Aug-2025,IIITH,,,,
+V2_detect,V2_detect,SceneText,Urdu ,Recognition,Word,6-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Bengali,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Gujarati,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Hindi,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Kannada,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Malayalam,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Oriya,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Punjabi,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Tamil,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.02,V-01.09.00.02,Handwritten,Telugu,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Bengali,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Gujarati,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Hindi,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Kannada,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Malayalam,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Oriya,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Punjabi,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Tamil,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Telugu,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.03,V-01.09.00.03,Handwritten,Urdu,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Bengali,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Gujarati,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Hindi,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Kannada,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Malayalam,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Oriya,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.04,V-01.09.00.04,Handwritten,Telugu,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Bengali,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Gujarati,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Kannada,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Malayalam,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Oriya,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.05,V-01.09.00.05,Handwritten,Telugu,Recognition,Word,22-Aug-2025,IIITH,,,,
+V-01.09.00.06,V-01.09.00.06,Handwritten,Gujarati,Recognition,Word,4-Sep-2025,IIITH,,,,
+V-01.09.00.06,V-01.09.00.06,Handwritten,Hindi,Recognition,Word,4-Sep-2025,IIITH,,,,
+V-01.09.00.06,V-01.09.00.06,Handwritten,Punjabi,Recognition,Word,4-Sep-2025,IIITH,,,,
+V-01.09.00.06,V-01.09.00.06,Handwritten,Tamil,Recognition,Word,4-Sep-2025,IIITH,,,,
+V-01.09.00.06,V-01.09.00.06,Handwritten,Telugu,Recognition,Word,4-Sep-2025,IIITH,,,,
+V-06.02.00.00,V-06.02.00.00,Printed,Oriya,Recognition,Word,15-Sep-2025,CDAC,,,,
+V-06.02.00.00,V-06.02.00.00,Printed,Bengali,Recognition,Word,15-Sep-2025,CDAC,,,,
+V-06.02.01.00,V-06.02.01.00,Printed,Bengali,Recognition,Page,15-Sep-2025,CDAC,,,,
+V-03.02.00.03,V-03.02.00.03,Printed,Sanskrit,Recognition,Page,17-Sep-2025,IITB,,,,
+hisam ,hisam ,Printed,Bodo,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Dogri,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Kashmiri,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Konkani,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Maithili,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Nepali,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Sanskrit,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Santali,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Sindhi,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Assamese,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Bengali,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,English,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Gujarati,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Hindi,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Kannada,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Malayalam,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Manipuri,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Marathi,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Oriya,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Punjabi,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Tamil,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Telugu,Layout,Page,19-Sep-2025,IIITH,,,,
+hisam ,hisam ,Printed,Urdu,Layout,Page,19-Sep-2025,IIITH,,,,
+V-06.02.00.01,V-06.02.00.01,Printed,Manipuri,Recognition,Word,22-Sep-2025,CDAC,,,,
+V-06.02.01.01,V-06.02.01.01,Printed,Manipuri,Recognition,Page,22-Sep-2025,CDAC,,,,
+V-06.02.00.02,V-06.02.00.02,Printed,Assamese,Recognition,Word,3-Oct-2025,CDAC,,,,
+V-06.02.01.02,V-06.02.01.02,Printed,Assamese,Recognition,Page,3-Oct-2025,CDAC,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Assamese,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Bengali,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,English,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Gujarati,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Hindi,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Kannada,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Malayalam,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Manipuri,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Marathi,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Oriya,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Punjabi,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Tamil,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.11.01.01,V-01.11.01.01,Printed,Telugu,Recognition,Word,4-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Hindi,Recognition,Word,15-Dec-2025,IIITH,High,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Assamese,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Kannada,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Bengali,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Gujarati,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Malayalam,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Manipuri,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Marathi,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Oriya,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Punjabi,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Tamil,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-01.12.01.00,V-01.12.01.00,Printed,Telugu,Recognition,Word,30-Dec-2025,IIITH,,,,
+V-06.03.00.00,V-06.03.00.00,Printed,Assamese,Recognition,Word,10-Jan-2026,CDAC,,,,
+V-06.03.00.00,V-06.03.00.00,Printed,Bengali,Recognition,Word,10-Jan-2026,CDAC,,,,
+V-06.03.00.00,V-06.03.00.00,Printed,Manipuri,Recognition,Word,10-Jan-2026,CDAC,,,,
+V-02.01.00.02,V-02.01.00.02,Printed,Marathi,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,Printed,Punjabi,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,Printed,Tamil,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Assamese,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Bengali,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,English,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Gujarati,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Hindi,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Kannada,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Malayalam,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Oriya,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Punjabi,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Tamil,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Telugu,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,SceneText,Telugu,Recognition,Word,6-Aug-2025,IITD,,Triplet models only API,,
+V-02.01.00.01,V-02.01.00.01,Printed ,English,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,SceneText,Marathi,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,SceneText,Punjabi,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,SceneText,Tamil,Recognition,Word,15-Jan-2026,IITD,,Triplet models only API,,
+V-02.01.00.02,V-02.01.00.02,SceneText,English,Recognition,Word,15-Jan-2026,IITD,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Hindi,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Assamese,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Kannada,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Bengali,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Malayalam,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Manipuri,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Marathi,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Oriya,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Punjabi,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Tamil,Recognition,Word,11-Mar-2026,IIITH,,,,
+V-01.13.01.00,V-01.13.01.00,Printed,Telugu,Recognition,Word,11-Mar-2026,IIITH,,,,
+iitd_focusformer,iitd_focusformer,Printed,Assamese,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Bengali,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Gujarati,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Hindi,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Kannada,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Malayalam,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Manipuri,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Marathi,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Oriya,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Punjabi,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Tamil,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer,iitd_focusformer,Printed,Telugu,Layout,Word,13-Mar-2026,IITD,,,,
+iitd_focusformer_line_level,iitd_focusformer,Printed,Urdu,Layout,Line,13-Mar-2026,IITD,,,,
+combined_indic_iitd,V-02.02.00.01,Printed,Multilingual (except urdu),Recognition,Word,1-Apr-2026,IITD,,,,
+V-05.04.00.02,V-05.04.00.02,Printed,Hindi,Recognition,Word,7-Jun-2026,PU,,,,
+efficientnet,efficientnet,,Hindi,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,English,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Gujarati,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Punjabi,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Marathi,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Kannada,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Telugu,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Tamil,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Malayalam,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Assamese,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Bengali,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+efficientnet,efficientnet,,Odia,Script Identification API ViT new,word,5-Jul-2026,IITJ,,,,
+shashiocr,shashiocr,Printed,Telugu,Recognition,Page,13-Jul-2026,IIITH,,,,
+V-01.13.01.00.01,V-01.13.01.00.01,Printed,Bengali,Pipeline with postprocess Openyoja with V-01.13.01.00,Page,16-Jul-2026,IIITH,,,,
+V-01.13.01.00.01,V-01.13.01.00.01,Printed,Hindi,Pipeline with postprocess Openyoja with V-01.13.01.00,Page,16-Jul-2026,IIITH,,,,
+V-01.13.01.01,V-01.13.01.01,Printed,all languages,Pipeline combo of OpenYoja with V13 model,Page,23-Aug-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Telugu,Pagelevel end-end,Page,22-Sep-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Hindi,Pagelevel end-end,Page,30-Sep-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Marathi,Pagelevel end-end,Page,1-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Malayalam,Pagelevel end-end,Page,1-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Bengali,Pagelevel end-end,Page,2-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Tamil,Pagelevel end-end,Page,1-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Kannada,Pagelevel end-end,Page,30-Sep-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Gujarati,Pagelevel end-end,Page,3-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Assamese,Pagelevel end-end,Page,4-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Manipuri,Pagelevel end-end,Page,4-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Urdu,Pagelevel end-end,Page,5-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Oriya,Pagelevel end-end,Page,5-Oct-2026,IIITH,,,,
+V-01.10.00.00,V-01.10.00.00,Handwritten,Punjabi,Pagelevel end-end,Page,5-Oct-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Assamese,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Manipuri,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Urdu,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Oriya,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Kannada,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Bengali,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Tamil,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Marathi,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+V-01.11.00.00,V-01.11.00.00,Handwritten,Punjabi,Pagelevel end-end,Page,10-Nov-2026,IIITH,,,,
+shashiocr,shashiocr,Printed,Bengali,Recognition,Page,12-Nov-2026,IIITH,,,,
+shashiocr,shashiocr,Printed,Tamil,Recognition,Page,14-Nov-2026,IIITH,,,,
+</script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const PC={IIITH:'#5b5bf0',IITB:'#0891b2',IITD:'#e11d48',IITJ:'#d97706',CDAC:'#16a34a',PU:'#9333ea',OpenSource:'#65a30d',Commercial:'#db2777'};
+const PN={IIITH:'IIIT Hyderabad',IITB:'IIT Bombay',IITD:'IIT Delhi',IITJ:'IIT Jodhpur',CDAC:'C-DAC'};
+const MC={Printed:'#2563eb',Handwritten:'#ea580c',SceneText:'#059669'};
+const TC={Recognition:'#7c3aed',Layout:'#0284c7',Pipeline:'#d97706','Pagelevel end-end':'#059669','Script Detection':'#db2777','Script Identification API ViT new':'#e11d48',Table:'#0d9488','Pre-Processing':'#65a30d'};
+const RC={High:'#16a34a',Medium:'#d97706',Low:'#dc2626'};const LC={Page:'#4f46e5',Word:'#0891b2',Line:'#c026d3',Character:'#ca8a04',Table:'#0d9488'};
+const RO=['High','Medium','Low','Unranked'],MN='Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+const hue=v=>'hsl('+([...v].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7))+' 62% 46%)';
+const FAC={pv:{t:'University',g:r=>r.pv,c:PC},type:{t:'Type of API',g:r=>[r.type],c:TC},mod:{t:'Modality',g:r=>[r.mod],c:MC},lvl:{t:'Level',g:r=>[r.lvl],c:LC},rk:{t:'Rank',g:r=>[r.rk],c:RC},y:{t:'Year added',g:r=>[r.y]},lang:{t:'Language',g:r=>[r.lang]}};
+const cc=(k,v)=>{const m=FAC[k].c;return m?(m[v]||(v.startsWith('Pipeline')?m.Pipeline:'#64748b')):hue(v)};
+const fd=i=>{const[y,m,d]=i.split('-');return+d+' '+MN[m-1]+' '+y};
+const chip=(k,v,x='')=>`<span class="ch" style="--c:${cc(k,v)}" title="${esc(PN[v]||'')}">${esc(v)}${x}</span>`;
+//PURE-START
+const COLS=['Internal Name','API Name','Modality','Language (s)','Type of API','Level','Date Added','IITD','Rank','Technical Details associated','References','Detailed Remaks'];
+const LM={Odia:'Oriya',Meetei:'Manipuri',NA:'N/A','all languages':'All languages','Multilingual (except urdu)':'Multilingual (except Urdu)'};
+const pd=s=>{s=(s||'').trim();let m=s.match(/^\d{4}-\d\d-\d\d$/);if(m)return s;m=s.match(/^(\d{1,2})-(\w{3})-(\d{4})$/);return m&&MN.indexOf(m[2])>=0?m[3]+'-'+String(MN.indexOf(m[2])+1).padStart(2,'0')+'-'+m[1].padStart(2,'0'):'1970-01-01'};
+const isoToD=i=>{const[y,m,d]=i.split('-');return+d+'-'+MN[m-1]+'-'+y};
+function parseCSV(t){const out=[];let r=[],c='',q=false;t=t.replace(/^\uFEFF/,'');for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}else if(ch=='"')q=true;else if(ch==','){r.push(c);c=''}else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;r.push(c);c='';out.push(r);r=[]}else c+=ch}if(c||r.length){r.push(c);out.push(r)}const h=out.shift().map(x=>x.trim());return out.filter(x=>x.some(v=>v.trim())).map(x=>Object.fromEntries(h.map((k,i)=>[k,(x[i]||'').trim()])))}
+function toCSV(recs){const e=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return[COLS.map(e).join(','),...recs.map(r=>COLS.map(c=>e(r[c])).join(','))].join('\n')}
+let rows=[],BY=new Map(),REC=[];
+function ingest(recs){REC=recs;const mi=new Map();rows=[];BY=new Map();recs.forEach(x=>{const g=k=>(x[k]||'').trim(),key=g('Internal Name')+'\u0001'+g('API Name');if(!mi.has(key))mi.set(key,mi.size);const m=mi.get(key),pv=g('IITD').split(',').map(p=>p.trim()).filter(Boolean).map(p=>p.toLowerCase()=='opensource'?'OpenSource':p);let lv=g('Level');lv=lv.charAt(0).toUpperCase()+lv.slice(1);
+g('Language (s)').split(',').forEach(l=>{l=l.trim();l=LM[l]||l;const r={m,rec:x,int:g('Internal Name'),api:g('API Name'),mod:g('Modality')||'Unspecified',lang:l,type:g('Type of API'),lvl:lv,d:pd(g('Date Added')),pv,rk:g('Rank')||'Unranked',tech:g('Technical Details associated'),ref:g('References'),rem:g('Detailed Remaks')};r.y=r.d.slice(0,4);r.hay=[r.int,r.api,r.mod,r.lang,r.type,r.lvl,r.pv.join(' '),r.rk,r.tech,r.ref,r.rem,r.d,fd(r.d)].join(' ').toLowerCase();rows.push(r);(BY.get(m)||BY.set(m,[]).get(m)).push(r)})})}
+//PURE-END
+const S={q:'',f:{},sort:'new',view:'cards',tab:'browse',lim:48,closed:new Set()};Object.keys(FAC).forEach(k=>S.f[k]=new Set());
+const KEYS={u:'pv',univ:'pv',type:'type',t:'type',mod:'mod',m:'mod',lang:'lang',l:'lang',level:'lvl',rank:'rk',year:'y',y:'y',tech:'tech',api:'api'};
+function qfn(q){const cs=(q.match(/"[^"]+"|\S+/g)||[]).map(t=>t.replace(/"/g,'').toLowerCase()).map(t=>{const i=t.indexOf(':'),k=i>0&&KEYS[t.slice(0,i)];if(k){const v=t.slice(i+1);return r=>[].concat(r[k]).join(' ').toLowerCase().includes(v)}return r=>r.hay.includes(t)});return r=>cs.every(c=>c(r))}
+function filt(skip){const qf=qfn(S.q);return rows.filter(r=>qf(r)&&Object.keys(FAC).every(k=>k==skip||!S.f[k].size||FAC[k].g(r).some(v=>S.f[k].has(v))))}
+const rsc=o=>Math.max(0,...[...o.rk].map(x=>3-RO.indexOf(x)));
+function groups(rs){const g=new Map();rs.forEach(r=>{let o=g.get(r.m);if(!o)g.set(r.m,o={m:r.m,api:r.api,int:r.int,pv:new Set(),type:new Set(),mod:new Map(),lvl:new Set(),rk:new Set(),lang:new Set(),d0:r.d,d1:r.d,tech:new Set(),n:0});r.pv.forEach(p=>o.pv.add(p));o.type.add(r.type);o.lvl.add(r.lvl);o.rk.add(r.rk);o.lang.add(r.lang);if(r.tech)o.tech.add(r.tech);o.n++;(o.mod.get(r.mod)||o.mod.set(r.mod,new Set()).get(r.mod)).add(r.lang);if(r.d<o.d0)o.d0=r.d;if(r.d>o.d1)o.d1=r.d});return[...g.values()]}
+const SORT={new:(a,b)=>b.d1.localeCompare(a.d1),old:(a,b)=>a.d0.localeCompare(b.d0),az:(a,b)=>a.api.localeCompare(b.api),cov:(a,b)=>b.lang.size-a.lang.size,rank:(a,b)=>rsc(b)-rsc(a)};
+const ORD=k=>k=='y'?(a,b)=>b[0]-a[0]:k=='rk'?(a,b)=>RO.indexOf(a[0])-RO.indexOf(b[0]):(a,b)=>b[1].size-a[1].size||a[0].localeCompare(b[0]);
+function side(){$('#side').innerHTML=Object.entries(FAC).map(([k,F])=>{const c=new Map();filt(k).forEach(r=>F.g(r).forEach(v=>(c.get(v)||c.set(v,new Set()).get(v)).add(r.m)));S.f[k].forEach(v=>c.has(v)||c.set(v,new Set()));
+return`<details data-k="${k}" ${S.closed.has(k)?'':'open'} class="fg"><summary>${F.t}${S.f[k].size?`<b>${S.f[k].size}</b>`:''}</summary><div class="opts">${[...c].sort(ORD(k)).map(([v,s])=>`<button class="op${S.f[k].has(v)?' on':''}" style="--c:${cc(k,v)}" data-k="${k}" data-v="${esc(v)}"><i></i><span title="${esc(v)}">${esc(v)}</span><em>${s.size}</em></button>`).join('')}</div></details>`}).join('')}
+const TL={Hindi:'अ',Bengali:'অ',Tamil:'அ',Telugu:'అ',Kannada:'ಅ',Malayalam:'അ',Gujarati:'અ',Punjabi:'ਅ',Oriya:'ଅ',Assamese:'ৰ',Urdu:'ا',Marathi:'ळ',English:'A',Sanskrit:'ॐ'};
+function tiles(){const c=new Map();filt('lang').forEach(r=>(c.get(r.lang)||c.set(r.lang,new Set()).get(r.lang)).add(r.m));$('#tiles').innerHTML=Object.keys(TL).map(l=>`<button class="tile${S.f.lang.has(l)?' on':''}" style="--c:${cc('lang',l)}" data-k="lang" data-v="${l}"><b>${TL[l]}</b><span>${l}</span><em>${(c.get(l)||[]).size||0} APIs</em></button>`).join('')}
+function card(o){const pv=[...o.pv],st=pv.length>1?`linear-gradient(90deg,${pv.map(p=>PC[p]||'#64748b').join(',')})`:(PC[pv[0]]||'#64748b'),L=[...o.lang].sort();
+return`<article class="card" tabindex="0" role="button" data-m="${o.m}"><div class="strip" style="background:${st}"></div><div class="hd"><div class="api">${esc(o.api)}</div>${[...o.rk].filter(x=>x!='Unranked').sort((a,b)=>RO.indexOf(a)-RO.indexOf(b)).slice(0,1).map(x=>chip('rk',x)).join('')}</div>${o.int!=o.api?`<div class="int">${esc(o.int)}</div>`:''}
+<div class="row">${[...o.type].map(t=>chip('type',t)).join('')}${pv.map(p=>chip('pv',p)).join('')}</div>
+<div class="row">${[...o.mod].map(([m,s])=>chip('mod',m,`<small>${s.size}</small>`)).join('')}${[...o.lvl].map(l=>chip('lvl',l)).join('')}</div>
+<div class="row">${L.slice(0,6).map(l=>chip('lang',l)).join('')}${L.length>6?`<span class="ch">+${L.length-6}</span>`:''}</div>
+${o.tech.size?`<div class="tech">${esc([...o.tech][0])}</div>`:''}<div class="ft"><span>${L.length} language${L.length>1?'s':''}</span><span>${o.d0==o.d1?fd(o.d0):fd(o.d0)+' to '+fd(o.d1)}</span></div></article>`}
+function render(){side();tiles();const rs=filt(),gs=groups(rs).sort(SORT[S.sort]);
+const act=Object.keys(FAC).flatMap(k=>[...S.f[k]].map(v=>`<span class="ch rm" style="--c:${cc(k,v)}" data-k="${k}" data-v="${esc(v)}" title="Remove filter">${esc(v)} ✕</span>`));
+$('#bar').innerHTML=`<div class="n">${gs.length} APIs <small>from ${rs.length} model entries</small></div>${act.join('')}${act.length||S.q?'<button class="btn" id="clr">Clear all</button>':''}<button id="fb" class="btn">Filters</button><select id="so" aria-label="Sort">${Object.entries({new:'Newest',old:'Oldest',az:'Name A–Z',cov:'Most languages',rank:'Best rank'}).map(([k,v])=>`<option value="${k}"${S.sort==k?' selected':''}>${v}</option>`).join('')}</select><div class="seg"><button data-v="cards" class="${S.view=='cards'?'on':''}">Cards</button><button data-v="table" class="${S.view=='table'?'on':''}">Table</button></div><span style="color:var(--mu);font-size:13px">Export</span><div class="seg"><button data-act="xf-csv">CSV</button><button data-act="xf-xlsx">Excel</button><button data-act="xf-json">JSON</button></div>`;
+let h='';if(!rs.length)h='<div class="empty"><b>No APIs match these filters.</b><br>Remove a filter or search fewer words.</div>';
+else if(S.view=='cards')h=`<div class="grid">${gs.slice(0,S.lim).map(card).join('')}</div>`+(gs.length>S.lim?`<button class="more" id="mo">Show more (${gs.length-S.lim} left)</button>`:'');
+else{const t=rs.slice().sort((a,b)=>b.d.localeCompare(a.d));h=`<div class="tw"><table><tr><th>API</th><th>Modality</th><th>Language</th><th>Type</th><th>Level</th><th>Added</th><th>University</th><th>Rank</th><th>Technical details</th></tr>${t.slice(0,S.lim*3).map(r=>`<tr class="c" data-m="${r.m}"><td class="api">${esc(r.api)}</td><td>${chip('mod',r.mod)}</td><td>${chip('lang',r.lang)}</td><td>${chip('type',r.type)}</td><td>${chip('lvl',r.lvl)}</td><td>${fd(r.d)}</td><td>${r.pv.map(p=>chip('pv',p)).join(' ')}</td><td>${chip('rk',r.rk)}</td><td>${esc(r.tech)}</td></tr>`).join('')}</table></div>`+(t.length>S.lim*3?`<button class="more" id="mo">Show more</button>`:'')}
+$('#res').innerHTML=h;if(S.tab=='insights')insights(rs)}
+function bars(rs,k){const c=new Map();rs.forEach(r=>FAC[k].g(r).forEach(v=>(c.get(v)||c.set(v,new Set()).get(v)).add(r.m)));const e=[...c].sort((a,b)=>b[1].size-a[1].size),mx=e[0]?e[0][1].size:1;
+return e.map(([v,s])=>`<button class="br" style="--c:${cc(k,v)}" data-k="${k}" data-v="${esc(v)}" data-go="1"><span>${esc(v)}</span><div><i style="width:${s.size/mx*100}%"></i></div><b>${s.size}</b></button>`).join('')}
+function insights(rs){const first=new Map();rs.forEach(r=>{if(!first.has(r.m)||r.d<first.get(r.m))first.set(r.m,r.d)});const q=new Map();first.forEach(d=>{const k=d.slice(0,4)+' Q'+(Math.ceil(+d.slice(5,7)/3));q.set(k,(q.get(k)||0)+1)});
+const qs=[...q].sort((a,b)=>a[0].localeCompare(b[0])),mx=Math.max(1,...qs.map(x=>x[1])),W=34;
+const svg=`<div style="overflow-x:auto"><svg width="${qs.length*W+10}" height="190" font-size="10" fill="currentColor">${qs.map(([k,n],i)=>{const h=n/mx*130;return`<g><title>${k}: ${n} new APIs</title><rect x="${i*W+6}" y="${150-h}" width="${W-8}" height="${h}" rx="4" fill="${hue(k.slice(0,4))}"/><text x="${i*W+6+(W-8)/2}" y="${145-h}" text-anchor="middle">${n}</text><text x="${i*W+6+(W-8)/2}" y="168" text-anchor="middle">${k.slice(2,4)}${k.slice(5)}</text></g>`}).join('')}</svg></div>`;
+const cm=new Map(),ps=[...new Set(rs.flatMap(r=>r.pv))].sort(),ms=['Printed','Handwritten','SceneText'];rs.forEach(r=>{[['m',r.mod],...r.pv.map(p=>['p',p])].forEach(([t,v])=>{const key=r.lang+'|'+v;(cm.get(key)||cm.set(key,new Set()).get(key)).add(r.m)})});
+const ls=[...new Set(rs.map(r=>r.lang))].sort((a,b)=>rows.filter(r=>r.lang==b).length-rows.filter(r=>r.lang==a).length);let hm=0;cm.forEach(s=>hm=Math.max(hm,s.size));
+const cols=[...ms.map(m=>['mod',m]),...ps.map(p=>['pv',p])];
+const tb=`<div style="overflow:auto;max-height:560px"><table class="hm"><tr><th>Language</th>${cols.map(([k,v])=>`<th style="color:${cc(k,v)}">${v}</th>`).join('')}</tr>${ls.map(l=>`<tr><td><b>${esc(l)}</b></td>${cols.map(([k,v])=>{const n=(cm.get(l+'|'+v)||[]).size;return`<td style="${n?`background:color-mix(in srgb,${cc(k,v)} ${12+n/hm*70}%,transparent)`:''}">${n||''}</td>`}).join('')}</tr>`).join('')}</table></div>`;
+$('#insights').innerHTML=`<div class="ins"><div class="pn"><h3>APIs by university</h3>${bars(rs,'pv')}</div><div class="pn"><h3>APIs by type</h3>${bars(rs,'type')}</div><div class="pn"><h3>APIs by modality</h3>${bars(rs,'mod')}</div><div class="pn"><h3>APIs by rank</h3>${bars(rs,'rk')}</div><div class="pn w"><h3>New APIs per quarter</h3>${svg}</div><div class="pn w"><h3>Language coverage: number of APIs per modality and university</h3>${tb}</div></div><p style="color:var(--mu);font-size:13px;margin-top:14px">Charts follow your current search and filters. Click a bar to filter the Browse view.</p>`}
+function open(m){const rs=BY.get(m),o=rs[0],U=k=>[...new Set(rs.map(r=>r[k]).filter(Boolean))],pv=[...new Set(rs.flatMap(r=>r.pv))],ds=rs.map(r=>r.d).sort(),L=U('lang').sort(),M=U('mod');
+const dd=(t,a)=>a.length?`<dt>${t}</dt><dd>${a.join('')}</dd>`:'';
+const cell=(l,md)=>{const x=rs.filter(r=>r.lang==l&&r.mod==md);return x.length?`<td><i class="cl" style="--c:${cc('mod',md)}" title="${esc(x.map(r=>r.lvl+', '+r.type+', '+fd(r.d)+', rank '+r.rk).join('\n'))}"></i></td>`:'<td></td>'};
+const st=pv.length>1?`linear-gradient(90deg,${pv.map(p=>PC[p]||'#64748b').join(',')})`:(PC[pv[0]]||'#64748b');
+$('#dw').innerHTML=`<div role="dialog" aria-label="API details"><div class="strip" style="background:${st};height:6px;margin:0 -24px"></div><div style="display:flex;justify-content:space-between;align-items:start"><h2>${esc(o.api)}</h2><button class="ib" id="x" aria-label="Close">✕</button></div>${o.int!=o.api?`<div class="int" style="margin:0">Internal name: ${esc(o.int)}</div>`:''}
+<dl>${dd('Type of API',U('type').map(t=>chip('type',t)+' '))}${dd('University',pv.map(p=>chip('pv',p)+' '+esc(PN[p]||'')+'<br>'))}${dd('Level',U('lvl').map(t=>chip('lvl',t)+' '))}${dd('Modality',M.map(t=>chip('mod',t)+' '))}${dd('Rank',U('rk').map(t=>chip('rk',t)+' '))}${dd('Date added',[ds[0]==ds[ds.length-1]?fd(ds[0]):fd(ds[0])+' to '+fd(ds[ds.length-1])])}${dd('Technical details',U('tech').map(t=>`<div>${esc(t)}</div>`))}${dd('References',U('ref').map(t=>`<div>${esc(t)}</div>`))}${dd('Detailed remarks',U('rem').map(t=>`<div>${esc(t)}</div>`))}</dl>
+<h4>Language coverage (${L.length})</h4><div class="tw"><table class="hm"><tr><th>Language</th>${M.map(x=>`<th style="color:${cc('mod',x)}">${x}</th>`).join('')}</tr>${L.map(l=>`<tr><td>${esc(l)}</td>${M.map(x=>cell(l,x)).join('')}</tr>`).join('')}</table></div><p style="margin-top:16px"><button class="btn" id="ca" data-t="${esc(o.api)}">Copy API name</button></p></div>`;$('#dw').hidden=false}
+const clip=(t,b,l)=>{const f=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()};(navigator.clipboard?navigator.clipboard.writeText(t).catch(f):Promise.resolve(f())).then(()=>{const o=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=o,1400)})};
+const csv=()=>{const e=v=>'"'+String(v).replace(/"/g,'""')+'"';return[['Internal Name','API Name','Modality','Language','Type of API','Level','Date Added','University','Rank','Technical Details','References','Remarks'].map(e).join(','),...filt().map(r=>[r.int,r.api,r.mod,r.lang,r.type,r.lvl,fd(r.d),r.pv.join(', '),r.rk,r.tech,r.ref,r.rem].map(e).join(','))].join('\n')};
+function tog(k,v){const s=S.f[k];s.has(v)?s.delete(v):s.add(v);S.lim=48;render()}
+function tab(t){S.tab=t;$('#browse').hidden=t!='browse';$('#insights').hidden=t!='insights';$('#admin').hidden=t!='admin';document.querySelector('.hero').hidden=t=='admin';document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab==t));render();admRender()}
+document.addEventListener('click',e=>{const t=e.target,c=s=>t.closest(s);let x;
+if(x=c('[data-act]'))act(x.dataset.act,x.dataset.i);
+else if(x=c('[data-go]')){tog(x.dataset.k,x.dataset.v);tab('browse');scrollTo({top:0})}
+else if(x=c('.op,.tile,.ch.rm'))tog(x.dataset.k,x.dataset.v);
+else if(x=c('[data-tab]'))tab(x.dataset.tab);
+else if(x=c('.seg button')){S.view=x.dataset.v;render()}
+else if(c('#clr')){S.q='';$('#q').value='';Object.values(S.f).forEach(s=>s.clear());render()}
+else if(c('#mo')){S.lim+=48;render()}
+else if(c('#cp'))clip(csv(),c('#cp'));
+else if(c('#ca'))clip(c('#ca').dataset.t,c('#ca'));
+else if(c('#fb'))$('#side').classList.toggle('open');
+else if(x=c('[data-ex]')){$('#q').value=S.q=x.dataset.ex;S.lim=48;render()}
+else if(x=c('[data-m]'))open(+x.dataset.m);
+else if(c('#x')||t.id=='dw')$('#dw').hidden=true;
+else if(c('#th')){const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=dk?'light':'dark';try{localStorage.setItem('th',d.dataset.theme)}catch(_){}}});
+document.addEventListener('change',e=>{if(e.target.id=='so'){S.sort=e.target.value;render()}});
+document.addEventListener('toggle',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)e.target.open?S.closed.delete(k):S.closed.add(k)},true);
+document.addEventListener('keydown',e=>{if(e.key=='Escape')$('#dw').hidden=true;else if(e.key=='/'&&document.activeElement.tagName!='INPUT'){e.preventDefault();$('#q').focus()}else if(e.key=='Enter'&&e.target.classList.contains('card'))open(+e.target.dataset.m)});
+let tm;$('#q').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{S.q=e.target.value;S.lim=48;render()},120)});
+try{const t=localStorage.getItem('th');if(t)document.documentElement.dataset.theme=t}catch(_){}
+
+let SRC='',DIRTY=0,AQ='',AL=100,IMP='';
+const gcfg=()=>{try{return{branch:'main',path:'data.csv',...JSON.parse(localStorage.getItem('gh')||'{}')}}catch(_){return{branch:'main',path:'data.csv'}}};
+const msg=(s,bad)=>{const e=$('#amsg');if(e){e.textContent=s;e.style.color=bad?'#dc2626':'#16a34a'}};
+const dl=(n,b)=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();a.remove()};
+const fRecs=()=>[...new Set(filt().map(r=>r.rec))];
+async function exp(kind,recs){const n='indic-ocr-apis-'+new Date().toISOString().slice(0,10);
+if(kind=='csv')dl(n+'.csv',new Blob([toCSV(recs)],{type:'text/csv'}));else if(kind=='json')dl(n+'.json',new Blob([JSON.stringify(recs,null,1)],{type:'application/json'}));
+else try{if(!window.XLSX)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(recs,{header:COLS}),'APIs');XLSX.writeFile(wb,n+'.xlsx')}catch(e){alert('Excel export needs to load a small library from the internet. Check your connection or use CSV.')}}
+async function load(){DIRTY=0;let t;try{const r=await fetch('data.csv?v='+Date.now());if(!r.ok)throw 0;t=await r.text();SRC='data.csv on the server'}catch(e){t=$('#seed').textContent;SRC='the copy built into this page'}ingest(parseCSV(t));boot()}
+function changed(){DIRTY=1;try{localStorage.setItem('draft',JSON.stringify(REC))}catch(_){}ingest(REC);boot()}
+function boot(){const nl=new Set(rows.map(r=>r.lang)).size,np=new Set(rows.flatMap(r=>r.pv)).size;$('#lead').textContent=`${BY.size} APIs from ${np} universities and providers, covering ${nl} languages and scripts. Search by name, language or note, or narrow things down with the filters.`;render();admRender()}
+async function publish(){const c=gcfg(),tk=sessionStorage.getItem('tk');if(!c.owner||!c.repo||!tk)return msg('Fill in owner, repository and token first.',1);
+const u=`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.path}`,H={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};msg('Publishing…');
+try{let sha;const g=await fetch(u+'?ref='+encodeURIComponent(c.branch),{headers:H});if(g.ok)sha=(await g.json()).sha;else if(g.status!=404)throw new Error('GitHub returned '+g.status+' while reading the file. Check owner, repository, branch and token.');
+const b=new TextEncoder().encode(toCSV(REC));let s='';for(let i=0;i<b.length;i+=8192)s+=String.fromCharCode(...b.subarray(i,i+8192));
+const p=await fetch(u,{method:'PUT',headers:H,body:JSON.stringify({message:'Update API list ('+REC.length+' rows)',content:btoa(s),sha,branch:c.branch})});
+if(!p.ok)throw new Error('GitHub returned '+p.status+': '+((await p.json()).message||''));
+DIRTY=0;try{localStorage.removeItem('draft')}catch(_){}admRender();msg('Published. The public site shows the update in about a minute.')}catch(e){msg(e.message,1)}}
+function admRender(){const a=$('#admin');if(a.hidden)return;const c=gcfg();let dr=null;try{dr=localStorage.getItem('draft')}catch(_){}
+const fi=(k,l,v,ty='text')=>`<label class="fl">${l}<input data-cfg="${k}" type="${ty}" value="${esc(v||'')}" autocomplete="off"></label>`;
+a.innerHTML=`<div class="ins"><div class="pn w"><h3>Admin panel</h3><p style="margin:0 0 12px;color:var(--mu)">${REC.length} rows in ${BY.size} APIs. Loaded from ${SRC}. ${DIRTY?'<b style="color:#dc2626">You have unpublished changes.</b> Visitors only see them after you publish.':'No unpublished changes.'}</p>
+<div class="row" style="gap:8px"><button class="btn" data-act="add">Add new API</button><button class="btn" data-act="pub" style="background:var(--ac);color:var(--bg)">Publish to GitHub</button>${dr&&!DIRTY?'<button class="btn" data-act="restore">Restore unsaved draft</button>':''}${DIRTY?'<button class="btn" data-act="discard">Discard changes</button>':''}<button class="btn" data-act="xa-csv">Export all CSV</button><button class="btn" data-act="xa-xlsx">Export all Excel</button><button class="btn" data-act="xa-json">Export all JSON</button></div><p id="amsg" style="margin:12px 0 0;font-weight:500"></p></div>
+<div class="pn"><h3>GitHub connection</h3>${fi('owner','Owner (user or organisation)',c.owner)}${fi('repo','Repository name',c.repo)}${fi('branch','Branch',c.branch)}${fi('path','Data file path',c.path)}${fi('tk','Access token (kept only for this browser session)',sessionStorage.getItem('tk'),'password')}</div>
+<div class="pn"><h3>Import a CSV</h3><p style="color:var(--mu);margin-top:0">Use a file with the same column headings as data.csv.</p><input type="file" id="imp" accept=".csv" hidden><div class="row" style="gap:8px"><button class="btn" data-act="imr">Replace everything</button><button class="btn" data-act="ima">Add to existing rows</button></div></div>
+<div class="pn w"><h3>All rows (newest added first)</h3><label class="fl"><input id="aq" placeholder="Filter rows by any word" value="${esc(AQ)}"></label><div id="arec"></div></div></div>`;admTable()}
+function admTable(){const el=$('#arec');if(!el)return;const q=AQ.toLowerCase().split(/\s+/).filter(Boolean),L=[];REC.forEach((r,i)=>{if(q.every(w=>COLS.some(c=>(r[c]||'').toLowerCase().includes(w))))L.push(i)});L.reverse();
+el.innerHTML=`<p style="color:var(--mu);margin:0 0 8px">${L.length} matching rows</p><div class="tw"><table><tr><th></th><th>API</th><th>Modality</th><th>Language</th><th>Type</th><th>Level</th><th>Added</th><th>University</th><th>Rank</th></tr>${L.slice(0,AL).map(i=>{const r=REC[i];return`<tr><td><button class="btn" data-act="edit" data-i="${i}">Edit</button> <button class="btn" data-act="del" data-i="${i}">Delete</button></td><td class="api">${esc(r['API Name'])}</td><td>${esc(r.Modality)}</td><td>${esc(r['Language (s)'])}</td><td>${esc(r['Type of API'])}</td><td>${esc(r.Level)}</td><td>${esc(r['Date Added'])}</td><td>${esc(r.IITD)}</td><td>${esc(r.Rank)}</td></tr>`}).join('')}</table></div>`+(L.length>AL?'<button class="more" data-act="more">Show more</button>':'')}
+function form(i){const nw=i==null,r=nw?{'Date Added':'',Level:'Page'}:REC[i],uniq=k=>[...new Set(REC.map(x=>x[k]).filter(Boolean))].sort();
+const f=(k,l,ls)=>`<label class="fl">${l}<input data-f="${k}" value="${esc(r[k]||'')}"${ls?` list="dl-${ls}"`:''}></label>`,ta=(k,l)=>`<label class="fl">${l}<textarea data-f="${k}" rows="2">${esc(r[k]||'')}</textarea></label>`;
+const ck=(n,vs,sel)=>vs.map(v=>`<label class="cb"><input type="checkbox" data-g="${n}" value="${esc(v)}"${sel.includes(v)?' checked':''}>${esc(v)}</label>`).join('');
+const provs=[...new Set(rows.flatMap(x=>x.pv))].sort(),cur=(r.IITD||'').split(',').map(s=>s.trim()),langs=[...new Set(rows.map(x=>x.lang))].sort(),dv=pd(r['Date Added']||'');
+const today=new Date(),iso=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+$('#dw').innerHTML=`<div role="dialog" aria-label="Edit API"><div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px"><h2 style="font-family:'Bricolage Grotesque',sans-serif;margin:0">${nw?'Add a new API':'Edit row'}</h2><button class="ib" data-act="close" aria-label="Close">✕</button></div>
+<datalist id="dl-type">${uniq('Type of API').map(v=>`<option value="${esc(v)}">`).join('')}</datalist><datalist id="dl-lvl"><option>Page<option>Word<option>Line<option>Character<option>Table</datalist><datalist id="dl-rank"><option>High<option>Medium<option>Low</datalist><datalist id="dl-mod"><option>Printed<option>Handwritten<option>SceneText</datalist>
+<div style="margin-top:14px">${f('Internal Name','Internal name')}${f('API Name','API name (leave blank to reuse the internal name)')}${f('Type of API','Type of API','type')}${f('Level','Level','lvl')}<label class="fl">Date added<input type="date" data-f="date" value="${nw?iso:dv}"></label>${f('Rank','Rank (optional)','rank')}
+<div class="fl">University / provider<div class="row" style="margin-top:4px">${ck('pv',provs,cur)}</div><input data-f="pvx" placeholder="Another provider (comma separated)"></div>
+${ta('Technical Details associated','Technical details')}${ta('References','References')}${ta('Detailed Remaks','Detailed remarks')}
+${nw?`<div class="fl">Modality<div class="row" style="margin-top:4px">${ck('mod',['Printed','Handwritten','SceneText'],[])}</div></div><div class="fl">Languages<div class="row" style="margin-top:4px">${ck('lang',langs,[])}</div><input data-f="langx" placeholder="Another language (comma separated)"></div><p style="color:var(--mu);font-size:13px">One row is created for every modality and language you pick.</p>`:`${f('Modality','Modality','mod')}${f('Language (s)','Language')}<label class="cb" style="margin-bottom:10px"><input type="checkbox" data-f="all"> Apply these shared fields to every row of this API</label>`}</div>
+<div class="row" style="gap:8px;margin-top:8px"><button class="btn" data-act="save"${nw?'':` data-i="${i}"`} style="background:var(--ac);color:var(--bg)">${nw?'Add API':'Save changes'}</button><button class="btn" data-act="close">Cancel</button></div></div>`;$('#dw').hidden=false}
+function saveForm(i){const v=k=>{const e=document.querySelector('#dw [data-f="'+k+'"]');return e?e.value.trim():''},g=n=>[...document.querySelectorAll('#dw [data-g="'+n+'"]:checked')].map(x=>x.value),sp=s=>s.split(',').map(x=>x.trim()).filter(Boolean);
+const base={'Internal Name':v('Internal Name'),'API Name':v('API Name')||v('Internal Name'),'Type of API':v('Type of API'),Level:v('Level'),'Date Added':isoToD(v('date')||'1970-01-01'),IITD:[...g('pv'),...sp(v('pvx'))].join(', '),Rank:v('Rank'),'Technical Details associated':v('Technical Details associated'),References:v('References'),'Detailed Remaks':v('Detailed Remaks')};
+if(!base['API Name'])return alert('Enter an internal name or API name.');
+if(i==null){const M=g('mod'),L=[...g('lang'),...sp(v('langx'))];if(!M.length||!L.length)return alert('Pick at least one modality and one language.');M.forEach(m=>L.forEach(l=>REC.push({...base,Modality:m,'Language (s)':l})))}
+else{const o=REC[i],key=o['Internal Name']+'\u0001'+o['API Name'],all=document.querySelector('#dw [data-f="all"]').checked;REC.forEach(r=>{if(r!==o&&all&&r['Internal Name']+'\u0001'+r['API Name']==key)Object.assign(r,base)});Object.assign(o,base,{Modality:v('Modality'),'Language (s)':v('Language (s)')})}
+$('#dw').hidden=true;changed()}
+function act(a,i){i=i==null?null:+i;
+if(a=='add')form(null);else if(a=='edit')form(i);else if(a=='del'){if(confirm('Delete this row?')){REC.splice(i,1);changed()}}
+else if(a=='save')saveForm(i);else if(a=='pub')publish();
+else if(a=='restore'){try{REC=JSON.parse(localStorage.getItem('draft'));changed()}catch(_){}}
+else if(a=='discard'){if(confirm('Throw away all unpublished changes?')){try{localStorage.removeItem('draft')}catch(_){}load()}}
+else if(a=='imr'||a=='ima'){IMP=a;$('#imp').click()}else if(a=='more'){AL+=100;admTable()}else if(a=='close')$('#dw').hidden=true;
+else if(a.startsWith('x')){const[k,f]=a.split('-');exp(f,k=='xa'?REC:fRecs())}}
+document.addEventListener('input',e=>{if(e.target.id=='aq'){AQ=e.target.value;AL=100;admTable()}});
+document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.cfg;try{if(k=='tk')sessionStorage.setItem('tk',e.target.value.trim());else if(k){const c=gcfg();c[k]=e.target.value.trim();localStorage.setItem('gh',JSON.stringify(c))}}catch(_){}
+if(e.target.id=='imp'&&e.target.files[0]){const el=e.target;el.files[0].text().then(x=>{try{const n=parseCSV(x);if(!n.length||!('API Name' in n[0]))throw 0;REC=IMP=='imr'?n:REC.concat(n);changed()}catch(_){msg('That file is not a CSV with the same columns as data.csv.',1)}el.value=''})}});
+try{const th=localStorage.getItem('th');if(th)document.documentElement.dataset.theme=th}catch(_){}
+load();
+</script></body></html>
