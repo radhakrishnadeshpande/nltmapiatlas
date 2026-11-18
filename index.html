@@ -13,10 +13,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sf);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:20px;padding:10px 24px}
-.brand{display:flex;align-items:center;gap:10px;font:800 18px 'Bricolage Grotesque',sans-serif}
+.brand{display:flex;align-items:center;gap:10px;font:800 18px 'Bricolage Grotesque',sans-serif;color:inherit;text-decoration:none}
 .logo{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:22px;height:22px}.logo i{border-radius:3px}
 .top nav{display:flex;gap:4px;margin-left:auto}
-.top nav button,.pill{padding:6px 14px;border-radius:99px;font-weight:500;color:var(--mu)}
+.top nav button{padding:6px 14px;border-radius:99px;font-weight:500;color:var(--mu)}
 .top nav button.on{background:var(--ink);color:var(--bg)}
 .ib{width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);display:grid;place-items:center}
 main{max-width:1380px;margin:0 auto;padding:0 24px 60px}
@@ -65,8 +65,6 @@ td,th{padding:7px 10px;border-bottom:1px solid var(--ln);white-space:nowrap}tr.c
 .ins{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:16px;padding-top:28px}
 .pn{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:16px 18px;min-width:0}.pn.w{grid-column:1/-1}
 .pn h3{margin:0 0 12px;font:800 18px 'Bricolage Grotesque',sans-serif}
-.br{--c:#64748b;display:grid;grid-template-columns:minmax(80px,170px) 1fr 40px;gap:10px;align-items:center;width:100%;text-align:left;padding:3px 0;font-size:13px}
-.br div{height:14px;background:color-mix(in srgb,var(--c) 12%,transparent);border-radius:5px}.br i{display:block;height:100%;background:var(--c);border-radius:5px}.br b{text-align:right}
 .hm td,.hm th{padding:4px 8px;text-align:center;border:1px solid var(--bg)}.hm td{min-width:44px}.hm th:first-child,.hm td:first-child{text-align:left}
 .dw{position:fixed;inset:0;background:#0009;z-index:50;display:flex;justify-content:flex-end}
 .dw>div{width:min(640px,100%);background:var(--bg);overflow:auto;padding:0 24px 30px;animation:sl .22s ease-out}
@@ -84,20 +82,18 @@ dl{display:grid;grid-template-columns:130px 1fr;gap:10px 14px;margin:18px 0}dt{c
 .cb:has(input:checked){background:var(--ac);color:var(--bg);border-color:var(--ac)}.cb input[data-g]{display:none}
 .mu{color:var(--mu)}.sub{margin:-6px 0 12px;font-size:13px}.fl select{width:100%}
 .kp{display:flex;flex-wrap:wrap;gap:12px;padding-top:28px}.kpi{flex:1;min-width:130px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:12px 16px}.kpi b{display:block;font:800 26px 'Bricolage Grotesque',sans-serif}.kpi span{color:var(--mu);font-size:13px}
-.kp+.ins{padding-top:16px}
-.dn{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.lgs{flex:1;min-width:150px;display:flex;flex-direction:column;gap:2px}
-.lgi{display:grid;grid-template-columns:12px 1fr auto 38px;gap:8px;align-items:center;text-align:left;padding:3px 6px;border-radius:8px;font-size:13px}.lgi:hover{background:color-mix(in srgb,var(--ac) 10%,transparent)}.lgi i,.lg i{width:12px;height:12px;border-radius:4px;display:inline-block}.lgi small{color:var(--mu);text-align:right}.lgi span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lg i{width:12px;height:12px;border-radius:4px;display:inline-block}
 .lg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--mu);margin:0 0 10px}.lg span{display:inline-flex;align-items:center;gap:6px}
 .sr{display:grid;grid-template-columns:minmax(80px,150px) 1fr 34px;gap:10px;align-items:center;margin:5px 0;font-size:13px}.sr button{text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sr button:hover{text-decoration:underline}.sk{display:flex;height:20px;border-radius:6px;overflow:hidden;min-width:5px}.sk i{display:block}.sk i+i{border-left:2px solid var(--sf)}.sr b{text-align:right}
 .bk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:var(--sf);position:sticky;top:calc(58px + env(safe-area-inset-top,0px));z-index:6;margin-bottom:12px;box-shadow:var(--sh)}
 .rb{color:var(--c);border-color:var(--c);font-weight:600}.sp{flex:1}.bvi{background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:6px 10px;font:inherit;width:190px}
-.fr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}.fl2{width:92px;font-size:12.5px;font-weight:600;color:var(--mu)}
+.fr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}.fl2{width:150px;flex:none;font-size:12.5px;font-weight:600;color:var(--mu)}
 .fc{--c:#64748b;display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:99px;font-size:12.5px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 8%,var(--sf))}
 .fc i{width:8px;height:8px;border-radius:50%;background:var(--c)}.fc b{font-weight:500;color:var(--mu);font-size:11.5px}.fc.on{background:var(--c);color:#fff;border-color:var(--c)}.fc.on b{color:#fff;opacity:.85}.fc.on i{background:#fff}
 .ph{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px}.ph h3{margin:0 auto 0 0}
 .ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:14px;font-size:13px}.cap{font-size:12.5px;margin:10px 0 0}
 .lgl{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;padding:2px 9px;border-radius:99px;border:1px solid var(--ln)}.lgl:hover{border-color:var(--ac)}.lgl i{width:11px;height:11px;border-radius:3px}.lgl small{color:var(--mu)}
-.hv{cursor:pointer;transition:opacity .15s}.hv:hover{opacity:.75}.rp:hover{fill-opacity:.35}
+.hv{cursor:pointer;transition:opacity .15s}.hv:hover{opacity:.75}
 .tt{position:fixed;z-index:70;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 11px;border-radius:10px;font-size:12.5px;line-height:1.5;max-width:300px;box-shadow:0 10px 30px #0006}
 .cw{overflow:auto}.cal{width:auto;min-width:100%;border-collapse:separate;border-spacing:3px}.cal th,.cal td{border:0;padding:0;text-align:center;font-size:11.5px;min-width:34px;height:30px;white-space:nowrap}.cal td{border-radius:6px;font-weight:600}.cal th{position:static;color:var(--mu);font-weight:500}.cal th.yr{font-weight:800;color:var(--ink);text-align:left;padding-left:4px}
 .cal th.rl{position:sticky;left:0;background:var(--sf);z-index:1;text-align:left;padding-right:10px;min-width:110px}.cal th.rl button{display:flex;gap:6px;align-items:center;font-weight:600;color:var(--ink)}.cal th.rl i{width:10px;height:10px;border-radius:3px}
@@ -105,15 +101,15 @@ dl{display:grid;grid-template-columns:130px 1fr;gap:10px 14px;margin:18px 0}dt{c
 .tmt{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;text-align:left;padding:6px 10px;min-height:30px;overflow:hidden;border-radius:8px;border-left:4px solid;font-size:12.5px;color:var(--ink)}.tmt b{font-size:15px}
 .fd{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;width:100%;text-align:left;padding:9px 6px;border-bottom:1px solid var(--ln)}.fd:hover{background:color-mix(in srgb,var(--ac) 7%,transparent)}.fd .row{grid-column:2}.fdd{color:var(--mu);font-size:12.5px}
 </style></head><body>
-<header class="top"><div class="brand"><span class="logo"><i style="background:#5b5bf0"></i><i style="background:#0891b2"></i><i style="background:#e11d48"></i><i style="background:#d97706"></i></span>Indic OCR API Atlas</div>
+<header class="top"><a class="brand" href="#browse" id="home"><span class="logo"><i style="background:#5b5bf0"></i><i style="background:#0891b2"></i><i style="background:#e11d48"></i><i style="background:#d97706"></i></span>Indic OCR API Atlas</a>
 <nav><button data-tab="browse" class="on">Browse</button><button data-tab="insights">Insights</button><button data-tab="admin">Admin</button></nav><button id="th" class="ib" aria-label="Toggle theme">◐</button></header>
 <main>
 <section class="hero"><h1>Find the OCR API that reads your language.</h1><p id="lead"></p>
 <label class="sb"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Search APIs, languages, universities, notes…" autocomplete="off"><kbd>/</kbd></label>
 <div class="ex">Try<button data-ex="lang:Tamil mod:Handwritten">lang:Tamil mod:Handwritten</button><button data-ex="univ:IITB type:Recognition">univ:IITB type:Recognition</button><button data-ex="year:2026 level:Page">year:2026 level:Page</button><button data-ex="triplet">triplet</button></div>
 <div id="tiles" class="tiles"></div></section>
-<div id="browse" class="lay"><aside id="side" class="side"></aside><section><div id="bar" class="bar"></div><div id="res"></div></section></div>
-<div id="insights" hidden></div><div id="admin" hidden style="padding-top:28px"></div></main>
+<div id="pg-browse" class="lay"><aside id="side" class="side"></aside><section><div id="bar" class="bar"></div><div id="res"></div></section></div>
+<div id="pg-insights" hidden></div><div id="pg-admin" hidden style="padding-top:28px"></div></main>
 <div id="dw" class="dw" hidden></div>
 <script type="text/plain" id="seed">Internal Name,API Name,Modality,Language (s),Type of API,Level,Date Added,IITD,Rank,Technical Details associated,References,Detailed Remaks
 craft,V-01.00.07.01,Printed,Bodo,Layout,Page,1-Mar-2022,OpenSource,,,,
@@ -1639,6 +1635,7 @@ shashiocr,shashiocr,Printed,Bengali,Recognition,Page,12-Nov-2026,IIITH,,,,
 shashiocr,shashiocr,Printed,Tamil,Recognition,Page,14-Nov-2026,IIITH,,,,
 </script>
 <script>
+// ===== Setup: helpers, colours, filter definitions =====
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const PC={IIITH:'#5b5bf0',IITB:'#0891b2',IITD:'#e11d48',IITJ:'#d97706',CDAC:'#16a34a',PU:'#9333ea',OpenSource:'#65a30d',Commercial:'#db2777'};
 const PN={IIITH:'IIIT Hyderabad',IITB:'IIT Bombay',IITD:'IIT Delhi',IITJ:'IIT Jodhpur',CDAC:'C-DAC'};
@@ -1647,11 +1644,12 @@ const TC={Recognition:'#7c3aed',Layout:'#0284c7',Pipeline:'#d97706','Pagelevel e
 const RC={High:'#16a34a',Medium:'#d97706',Low:'#dc2626'};const LC={Page:'#4f46e5',Word:'#0891b2',Line:'#c026d3',Character:'#ca8a04',Table:'#0d9488'};
 const RO=['High','Medium','Low','Unranked'],MN='Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
 const hue=v=>'hsl('+([...v].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7))+' 62% 46%)';
-const FAC={pv:{t:'University',g:r=>r.pv,c:PC},type:{t:'Type of API',g:r=>[r.type],c:TC},mod:{t:'Modality',g:r=>[r.mod],c:MC},lvl:{t:'Level',g:r=>[r.lvl],c:LC},rk:{t:'Rank',g:r=>[r.rk],c:RC},y:{t:'Year added',g:r=>[r.y]},lang:{t:'Language',g:r=>[r.lang]}};
+const FAC={pv:{t:'University',g:r=>r.pv,c:PC},org:{t:'Open source & commercial',g:r=>r.org,c:PC},type:{t:'Type of API',g:r=>[r.type],c:TC},mod:{t:'Modality',g:r=>[r.mod],c:MC},lvl:{t:'Level',g:r=>[r.lvl],c:LC},rk:{t:'Rank',g:r=>[r.rk],c:RC},y:{t:'Year added',g:r=>[r.y]},lang:{t:'Language',g:r=>[r.lang]}};
 const cc=(k,v)=>{const m=FAC[k].c;return m?(m[v]||(v.startsWith('Pipeline')?m.Pipeline:'#64748b')):hue(v)};
 const fd=i=>{const[y,m,d]=i.split('-');return+d+' '+MN[m-1]+' '+y};
 const chip=(k,v,x='')=>`<span class="ch" style="--c:${cc(k,v)}" title="${esc(PN[v]||'')}">${esc(v)}${x}</span>`;
-//PURE-START
+// ===== Data: parse, write and normalise the CSV =====
+const NONUNI=new Set(['OpenSource','Commercial']);
 const COLS=['Internal Name','API Name','Modality','Language (s)','Type of API','Level','Date Added','IITD','Rank','Technical Details associated','References','Detailed Remaks'];
 const LM={Odia:'Oriya',Meetei:'Manipuri','all languages':'All languages','Multilingual (except urdu)':'Multilingual (except Urdu)'};
 const pd=s=>{s=(s||'').trim();let m=s.match(/^\d{4}-\d\d-\d\d$/);if(m)return s;m=s.match(/^(\d{1,2})-(\w{3})-(\d{4})$/);return m&&MN.indexOf(m[2])>=0?m[3]+'-'+String(MN.indexOf(m[2])+1).padStart(2,'0')+'-'+m[1].padStart(2,'0'):'1970-01-01'};
@@ -1659,15 +1657,15 @@ const isoToD=i=>{const[y,m,d]=i.split('-');return+d+'-'+MN[m-1]+'-'+y};
 function parseCSV(t){const out=[];let r=[],c='',q=false;t=t.replace(/^\uFEFF/,'');for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}else if(ch=='"')q=true;else if(ch==','){r.push(c);c=''}else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;r.push(c);c='';out.push(r);r=[]}else c+=ch}if(c||r.length){r.push(c);out.push(r)}const h=out.shift().map(x=>x.trim());return out.filter(x=>x.some(v=>v.trim())).map(x=>Object.fromEntries(h.map((k,i)=>[k,(x[i]||'').trim()])))}
 function toCSV(recs){const e=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return[COLS.map(e).join(','),...recs.map(r=>COLS.map(c=>e(r[c])).join(','))].join('\n')}
 let rows=[],BY=new Map(),REC=[];
-function ingest(recs){REC=recs;const mi=new Map();rows=[];BY=new Map();recs.forEach(x=>{const g=k=>(x[k]||'').trim(),key=g('Internal Name')+'\u0001'+g('API Name');if(!mi.has(key))mi.set(key,mi.size);const m=mi.get(key),pv=g('IITD').split(',').map(p=>p.trim()).filter(Boolean).map(p=>p.toLowerCase()=='opensource'?'OpenSource':p);let lv=g('Level');lv=lv.charAt(0).toUpperCase()+lv.slice(1);
-g('Language (s)').split(',').forEach(l=>{l=l.trim();l=LM[l]||l;const nl=!l||l.toUpperCase()=='NA';if(nl)l=g('API Name')||g('Internal Name');const r={m,rec:x,int:g('Internal Name'),api:g('API Name'),mod:g('Modality')||'Unspecified',lang:l,type:g('Type of API'),lvl:lv,d:pd(g('Date Added')),pv,rk:g('Rank')||'Unranked',nl,tech:g('Technical Details associated'),ref:g('References'),rem:g('Detailed Remaks')};r.y=r.d.slice(0,4);r.hay=[r.int,r.api,r.mod,r.lang,r.type,r.lvl,r.pv.join(' '),r.rk,r.tech,r.ref,r.rem,r.d,fd(r.d)].join(' ').toLowerCase();rows.push(r);(BY.get(m)||BY.set(m,[]).get(m)).push(r)})})}
-//PURE-END
+function ingest(recs){REC=recs;const mi=new Map();rows=[];BY=new Map();recs.forEach(x=>{const g=k=>(x[k]||'').trim(),key=g('Internal Name')+'\u0001'+g('API Name');if(!mi.has(key))mi.set(key,mi.size);const m=mi.get(key),prov0=g('IITD').split(',').map(p=>p.trim()).filter(Boolean).map(p=>/^open\s*source$/i.test(p)?'OpenSource':/^commercial$/i.test(p)?'Commercial':p),pv=prov0.filter(p=>!NONUNI.has(p)),org=prov0.filter(p=>NONUNI.has(p));let lv=g('Level');lv=lv.charAt(0).toUpperCase()+lv.slice(1);
+g('Language (s)').split(',').forEach(l=>{l=l.trim();l=LM[l]||l;const nl=!l||l.toUpperCase()=='NA';if(nl)l=g('API Name')||g('Internal Name');const r={m,rec:x,int:g('Internal Name'),api:g('API Name'),mod:g('Modality')||'Unspecified',lang:l,type:g('Type of API'),lvl:lv,d:pd(g('Date Added')),pv,org,prov:prov0,rk:g('Rank')||'Unranked',nl,tech:g('Technical Details associated'),ref:g('References'),rem:g('Detailed Remaks')};r.y=r.d.slice(0,4);r.hay=[r.int,r.api,r.mod,r.lang,r.type,r.lvl,r.prov.join(' '),r.rk,r.tech,r.ref,r.rem,r.d,fd(r.d)].join(' ').toLowerCase();rows.push(r);(BY.get(m)||BY.set(m,[]).get(m)).push(r)})})}
+// ===== Browse: search, filters, cards and table =====
 const S={q:'',f:{},sort:'new',view:'cards',tab:'browse',lim:48,closed:new Set()};Object.keys(FAC).forEach(k=>S.f[k]=new Set());
-const KEYS={u:'pv',univ:'pv',type:'type',t:'type',mod:'mod',m:'mod',lang:'lang',l:'lang',level:'lvl',rank:'rk',year:'y',y:'y',tech:'tech',api:'api'};
+const KEYS={u:'pv',univ:'pv',org:'org',src:'org',type:'type',t:'type',mod:'mod',m:'mod',lang:'lang',l:'lang',level:'lvl',rank:'rk',year:'y',y:'y',tech:'tech',api:'api'};
 function qfn(q){const cs=(q.match(/"[^"]+"|\S+/g)||[]).map(t=>t.replace(/"/g,'').toLowerCase()).map(t=>{const i=t.indexOf(':'),k=i>0&&KEYS[t.slice(0,i)];if(k){const v=t.slice(i+1);return r=>[].concat(r[k]).join(' ').toLowerCase().includes(v)}return r=>r.hay.includes(t)});return r=>cs.every(c=>c(r))}
 function filt(skip){const qf=qfn(S.q);return rows.filter(r=>qf(r)&&Object.keys(FAC).every(k=>k==skip||!S.f[k].size||FAC[k].g(r).some(v=>S.f[k].has(v))))}
 const rsc=o=>Math.max(0,...[...o.rk].map(x=>3-RO.indexOf(x)));
-function groups(rs){const g=new Map();rs.forEach(r=>{let o=g.get(r.m);if(!o)g.set(r.m,o={m:r.m,api:r.api,int:r.int,pv:new Set(),type:new Set(),mod:new Map(),lvl:new Set(),rk:new Set(),lang:new Set(),d0:r.d,d1:r.d,tech:new Set(),n:0,nlc:0});r.pv.forEach(p=>o.pv.add(p));o.type.add(r.type);o.lvl.add(r.lvl);o.rk.add(r.rk);o.lang.add(r.lang);if(r.tech)o.tech.add(r.tech);o.n++;if(r.nl)o.nlc++;(o.mod.get(r.mod)||o.mod.set(r.mod,new Set()).get(r.mod)).add(r.lang);if(r.d<o.d0)o.d0=r.d;if(r.d>o.d1)o.d1=r.d});return[...g.values()]}
+function groups(rs){const g=new Map();rs.forEach(r=>{let o=g.get(r.m);if(!o)g.set(r.m,o={m:r.m,api:r.api,int:r.int,pv:new Set(),type:new Set(),mod:new Map(),lvl:new Set(),rk:new Set(),lang:new Set(),d0:r.d,d1:r.d,tech:new Set(),n:0,nlc:0});r.prov.forEach(p=>o.pv.add(p));o.type.add(r.type);o.lvl.add(r.lvl);o.rk.add(r.rk);o.lang.add(r.lang);if(r.tech)o.tech.add(r.tech);o.n++;if(r.nl)o.nlc++;(o.mod.get(r.mod)||o.mod.set(r.mod,new Set()).get(r.mod)).add(r.lang);if(r.d<o.d0)o.d0=r.d;if(r.d>o.d1)o.d1=r.d});return[...g.values()]}
 const SORT={new:(a,b)=>b.d1.localeCompare(a.d1),old:(a,b)=>a.d0.localeCompare(b.d0),az:(a,b)=>a.api.localeCompare(b.api),cov:(a,b)=>b.lang.size-a.lang.size,rank:(a,b)=>rsc(b)-rsc(a)};
 const ORD=k=>k=='y'?(a,b)=>b[0]-a[0]:k=='rk'?(a,b)=>RO.indexOf(a[0])-RO.indexOf(b[0]):(a,b)=>b[1].size-a[1].size||a[0].localeCompare(b[0]);
 function side(){$('#side').innerHTML=Object.entries(FAC).map(([k,F])=>{const c=new Map();filt(k).forEach(r=>F.g(r).forEach(v=>(c.get(v)||c.set(v,new Set()).get(v)).add(r.m)));S.f[k].forEach(v=>c.has(v)||c.set(v,new Set()));
@@ -1685,8 +1683,9 @@ const act=Object.keys(FAC).flatMap(k=>[...S.f[k]].map(v=>`<span class="ch rm" st
 $('#bar').innerHTML=`<div class="n">${gs.length} APIs <small>from ${rs.length} model entries</small></div>${act.join('')}${act.length||S.q?'<button class="btn" id="clr">Clear all</button>':''}<button id="fb" class="btn">Filters</button><select id="so" aria-label="Sort">${Object.entries({new:'Newest',old:'Oldest',az:'Name A–Z',cov:'Most languages',rank:'Best rank'}).map(([k,v])=>`<option value="${k}"${S.sort==k?' selected':''}>${v}</option>`).join('')}</select><div class="seg"><button data-v="cards" class="${S.view=='cards'?'on':''}">Cards</button><button data-v="table" class="${S.view=='table'?'on':''}">Table</button></div><span style="color:var(--mu);font-size:13px">Export</span><div class="seg"><button data-act="xf-csv">CSV</button><button data-act="xf-xlsx">Excel</button><button data-act="xf-json">JSON</button></div>`;
 let h='';if(!rs.length)h='<div class="empty"><b>No APIs match these filters.</b><br>Remove a filter or search fewer words.</div>';
 else if(S.view=='cards')h=`<div class="grid">${gs.slice(0,S.lim).map(card).join('')}</div>`+(gs.length>S.lim?`<button class="more" id="mo">Show more (${gs.length-S.lim} left)</button>`:'');
-else{const t=rs.slice().sort((a,b)=>b.d.localeCompare(a.d));h=`<div class="tw"><table><tr><th>API</th><th>Modality</th><th>Language</th><th>Type</th><th>Level</th><th>Added</th><th>University</th><th>Rank</th><th>Technical details</th></tr>${t.slice(0,S.lim*3).map(r=>`<tr class="c" data-m="${r.m}"><td class="api">${esc(r.api)}</td><td>${chip('mod',r.mod)}</td><td>${chip('lang',r.lang)}</td><td>${chip('type',r.type)}</td><td>${chip('lvl',r.lvl)}</td><td>${fd(r.d)}</td><td>${r.pv.map(p=>chip('pv',p)).join(' ')}</td><td>${chip('rk',r.rk)}</td><td>${esc(r.tech)}</td></tr>`).join('')}</table></div>`+(t.length>S.lim*3?`<button class="more" id="mo">Show more</button>`:'')}
+else{const t=rs.slice().sort((a,b)=>b.d.localeCompare(a.d));h=`<div class="tw"><table><tr><th>API</th><th>Modality</th><th>Language</th><th>Type</th><th>Level</th><th>Added</th><th>University</th><th>Rank</th><th>Technical details</th></tr>${t.slice(0,S.lim*3).map(r=>`<tr class="c" data-m="${r.m}"><td class="api">${esc(r.api)}</td><td>${chip('mod',r.mod)}</td><td>${chip('lang',r.lang)}</td><td>${chip('type',r.type)}</td><td>${chip('lvl',r.lvl)}</td><td>${fd(r.d)}</td><td>${r.prov.map(p=>chip('pv',p)).join(' ')}</td><td>${chip('rk',r.rk)}</td><td>${esc(r.tech)}</td></tr>`).join('')}</table></div>`+(t.length>S.lim*3?`<button class="more" id="mo">Show more</button>`:'')}
 $('#res').innerHTML=h;if(S.tab=='insights')insights(rs)}
+// ===== Insights: interactive charts =====
 const IS={g:'q',by:'pv',v:'bars',ls:'mod'};
 const cnt=(rs,fn)=>{const c=new Map();rs.forEach(r=>[].concat(fn(r)).forEach(v=>(c.get(v)||c.set(v,new Set()).get(v)).add(r.m)));return c};
 const tt=h=>` data-tt="${esc(h)}"`;
@@ -1699,7 +1698,7 @@ else{while(y<ey||(y==ey&&m<=em)){o.push(y+'-'+String(m).padStart(2,'0'));if(++m>
 function evs(rs,by){const m=new Map();rs.forEach(r=>FAC[by].g(r).forEach(v=>{const k=r.m+'|'+v,o=m.get(k);if(!o||r.d<o.d)m.set(k,{d:r.d,v,api:r.api})}));return[...m.values()]}
 function pairs(rs){const m=new Map();rs.forEach(r=>r.pv.forEach(p=>{const t=m.get(p)||m.set(p,new Map()).get(p),s=t.get(r.type)||t.set(r.type,new Set()).get(r.type);s.add(r.m)}));return m}
 const nm=s=>[...s].slice(0,8).map(m=>esc(BY.get(m)[0].api)).join(', ')+(s.size>8?' and more':'');
-function strip(){return['pv','type','mod','y'].map(k=>{const F=FAC[k],c=cnt(filt(k),F.g);S.f[k].forEach(v=>c.has(v)||c.set(v,new Set()));return`<div class="fr"><span class="fl2">${F.t}</span>${[...c].sort(ORD(k)).map(([v,s])=>`<button class="fc${S.f[k].has(v)?' on':''}" style="--c:${cc(k,v)}" data-k="${k}" data-v="${esc(v)}"><i></i>${esc(v)}<b>${s.size}</b></button>`).join('')}</div>`}).join('')}
+function strip(){return['pv','org','type','mod','y'].map(k=>{const F=FAC[k],c=cnt(filt(k),F.g);S.f[k].forEach(v=>c.has(v)||c.set(v,new Set()));return`<div class="fr"><span class="fl2">${F.t}</span>${[...c].sort(ORD(k)).map(([v,s])=>`<button class="fc${S.f[k].has(v)?' on':''}" style="--c:${cc(k,v)}" data-k="${k}" data-v="${esc(v)}"><i></i>${esc(v)}<b>${s.size}</b></button>`).join('')}</div>`}).join('')}
 function timeChart(rs){const by=IS.by,g=IS.g,E=evs(rs,by);if(!E.length)return'<p class="mu">No data for these filters.</p>';
 const ds=E.map(e=>e.d).sort(),B=bkts(ds[0],ds[ds.length-1],g),bi=new Map(B.map((k,i)=>[k,i])),tot=new Map(),M=B.map(()=>new Map()),NM=B.map(()=>new Map());
 E.forEach(e=>{tot.set(e.v,(tot.get(e.v)||0)+1);const i=bi.get(gk(e.d,g));M[i].set(e.v,(M[i].get(e.v)||0)+1);(NM[i].get(e.v)||NM[i].set(e.v,[]).get(e.v)).push(e.api)});
@@ -1719,13 +1718,6 @@ const P=[...tot.keys()].sort((a,b)=>tot.get(b)-tot.get(a)),yrs=[...new Set(B.map
 return`<div class="cw"><table class="cal"><tr><th></th>${yrs.map(y=>`<th colspan="${B.filter(k=>k.startsWith(y)).length}" class="yr">${y}</th>`).join('')}<th></th></tr><tr><th></th>${B.map(k=>`<th>Q${k.slice(6)}</th>`).join('')}<th>All</th></tr>${P.map(p=>`<tr><th class="rl"><button data-k="pv" data-v="${esc(p)}" data-go="1"><i style="background:${cc('pv',p)}"></i>${esc(p)}</button></th>${B.map(k=>{const a=m.get(p+'|'+k)||[];return a.length?`<td class="hv" style="background:color-mix(in srgb,${cc('pv',p)} ${22+a.length/mx*68}%,transparent)" data-k="pv" data-v="${esc(p)}" data-go="1"${tt(`<b>${esc(p)}, ${esc(k)}</b><br>${a.length} new API${a.length>1?'s':''}<br><span style="opacity:.8">${a.slice(0,8).map(esc).join(', ')}${a.length>8?' and more':''}</span>`)}>${a.length}</td>`:'<td></td>'}).join('')}<td><b>${tot.get(p)}</b></td></tr>`).join('')}</table></div>`}
 function treemap(rs){const pm=pairs(rs),U=[...pm].map(([p,tm])=>{const ts=[...tm].sort((a,b)=>b[1].size-a[1].size);return[p,ts,ts.reduce((a,x)=>a+x[1].size,0)]}).sort((a,b)=>b[2]-a[2]);if(!U.length)return'<p class="mu">No data for these filters.</p>';
 return`<div class="tm">${U.map(([p,ts,n])=>`<div class="tmc" style="flex:${n} 1 0"><button class="tmh" style="background:${cc('pv',p)}" data-k="pv" data-v="${esc(p)}" data-go="1"><b>${esc(p)}</b><span>${n}</span></button>${ts.map(([ty,s],i)=>`<button class="tmt hv" style="flex:${s.size} 1 0;border-left-color:${cc('pv',p)};background:color-mix(in srgb,${cc('pv',p)} ${Math.round(Math.max(.4,.95-i*.14)*40)}%,var(--sf))" data-k="type" data-v="${esc(ty)}" data-go="1"${tt(`<b>${esc(p)}: ${esc(ty)}</b><br>${s.size} APIs<br><span style="opacity:.8">${nm(s)}</span>`)}><span>${esc(ty)}</span><b>${s.size}</b></button>`).join('')}</div>`).join('')}</div>`}
-function radar(rs){const pm=pairs(rs),tc=new Map(),pc=new Map();pm.forEach((tm,p)=>tm.forEach((s,t)=>{tc.set(t,(tc.get(t)||0)+s.size);pc.set(p,(pc.get(p)||0)+s.size)}));
-const T=[...tc].sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]),P=[...pc].sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);if(T.length<3||!P.length)return'<p class="mu">Not enough variety in the current selection. Clear a filter to see this chart.</p>';
-const C=190,R=125,n=T.length,an=i=>-Math.PI/2+i*2*Math.PI/n,v=(p,t)=>(pm.get(p).get(t)||{size:0}).size,mx=T.map(t=>Math.max(1,...P.map(p=>v(p,t)))),pt=(i,f)=>[C+R*f*Math.cos(an(i)),C+R*f*Math.sin(an(i))];
-const rings=[.25,.5,.75,1].map(f=>`<polygon points="${T.map((_,i)=>pt(i,f).join(',')).join(' ')}" fill="none" stroke="var(--ln)"/>`).join('');
-const axes=T.map((t,i)=>{const[x,y]=pt(i,1),[lx,ly]=pt(i,1.14),c=Math.cos(an(i));return`<line x1="${C}" y1="${C}" x2="${x}" y2="${y}" stroke="var(--ln)"/><text x="${lx}" y="${ly+4}" text-anchor="${c>.3?'start':c<-.3?'end':'middle'}" font-size="11.5" fill="currentColor">${esc(t.length>22?t.slice(0,21)+'…':t)}</text>`}).join('');
-const polys=P.map(p=>{const pts=T.map((t,i)=>pt(i,v(p,t)/mx[i]));return`<g><polygon class="rp" points="${pts.map(a=>a.join(',')).join(' ')}" fill="${cc('pv',p)}" fill-opacity=".14" stroke="${cc('pv',p)}" stroke-width="2.2"/>${pts.map((a,i)=>`<circle class="hv" cx="${a[0]}" cy="${a[1]}" r="4.5" fill="${cc('pv',p)}" data-k="pv" data-v="${esc(p)}" data-go="1"${tt(`<b>${esc(p)}</b><br>${esc(T[i])}: ${v(p,T[i])} APIs`)}/>`).join('')}</g>`}).join('');
-return lgd(P.map(p=>['pv',p]))+`<svg viewBox="-80 -6 540 400" style="width:100%;height:auto;max-height:430px" role="img" aria-label="University capability radar">${rings}${axes}${polys}</svg><p class="mu cap">Each axis is scaled to the university with the most APIs of that type.</p>`}
 function stack(rs,rk,sk){const rm=new Map();rs.forEach(r=>FAC[rk].g(r).forEach(a=>{const o=rm.get(a)||rm.set(a,new Map()).get(a);FAC[sk].g(r).forEach(b=>(o.get(b)||o.set(b,new Set()).get(b)).add(r.m))}));
 const sc=new Map();rm.forEach(o=>o.forEach((s,b)=>sc.set(b,(sc.get(b)||0)+s.size)));const segs=[...sc.keys()].sort((a,b)=>sc.get(b)-sc.get(a));
 const R=[...rm].map(([a,o])=>[a,segs.filter(b=>o.has(b)).map(b=>[b,o.get(b).size]),[...o.values()].reduce((x,s)=>x+s.size,0)]).sort((x,y)=>y[2]-x[2]),mx=Math.max(1,...R.map(x=>x[2]));
@@ -1739,48 +1731,51 @@ const kp=(l,v,s='')=>`<div class="kpi"><b>${v}</b><span>${l}${s?' · '+s:''}</sp
 function insights(rs){const A=new Set(rs.map(r=>r.m)).size,real=rs.filter(r=>!r.nl),lt=rs.reduce((a,r)=>r.d>a?r.d:a,''),fm=new Map();rs.forEach(r=>{if(!fm.has(r.m)||r.d<fm.get(r.m))fm.set(r.m,r.d)});
 const qc=new Map();fm.forEach(d=>{const k=gk(d,'q');qc.set(k,(qc.get(k)||0)+1)});const bq=[...qc].sort((a,b)=>b[1]-a[1])[0],nlm=[...new Set(rs.filter(r=>r.nl).map(r=>r.api))],any=S.q||Object.values(S.f).some(s=>s.size);
 const by={pv:'university',type:'type of API',mod:'modality',lvl:'level'}[IS.by];
-$('#insights').innerHTML=`<div style="padding-top:28px"><div class="pn w"><div class="ph"><h3>Explore</h3><span class="mu">${A} APIs match</span>${any?'<button class="btn" id="clr">Reset filters</button>':''}<button class="btn" data-tab="browse">Open these in Browse</button></div>${strip()}</div></div>
+$('#pg-insights').innerHTML=`<div style="padding-top:28px"><div class="pn w"><div class="ph"><h3>Explore</h3><span class="mu">${A} APIs match</span>${any?'<button class="btn" id="clr">Reset filters</button>':''}<button class="btn" data-tab="browse">Open these in Browse</button></div>${strip()}</div></div>
 <div class="kp" style="padding-top:16px">${kp('APIs',A)}${kp('Universities',new Set(rs.flatMap(r=>r.pv)).size)}${kp('Languages',new Set(real.map(r=>r.lang)).size)}${kp('Busiest quarter',bq?bq[0]:'none',bq?bq[1]+' new APIs':'')}${kp('Latest addition',lt?fd(lt):'none')}</div>
-<div class="ins"><div class="pn w"><h3>Releases over time</h3><div class="ctl"><span class="mu">Period</span>${seg('g',[['y','Year'],['q','Quarter'],['m','Month']])}<span class="mu">Group by</span>${seg('by',[['pv','University'],['type','Type'],['mod','Modality'],['lvl','Level']])}<span class="mu">View</span>${seg('v',[['bars','New per period'],['cum','Running total']])}</div>${timeChart(rs)}<p class="mu cap">Each API is counted once for every ${by} it belongs to, in the period it first appeared. Click a bar or a legend name to filter.</p></div>
+<div class="ins"><div class="pn w"><h3>Releases over time</h3><div class="ctl"><span class="mu">Period</span>${seg('g',[['y','Year'],['q','Quarter'],['m','Month']])}<span class="mu">Group by</span>${seg('by',[['pv','University'],['type','Type'],['mod','Modality'],['lvl','Level']])}<span class="mu">View</span>${seg('v',[['bars','New per period'],['cum','Running total']])}</div>${timeChart(rs)}<p class="mu cap">Each API is counted once for every ${by} it belongs to, in the period it first appeared. Click a bar or a legend name to filter.${IS.by=='pv'?' Open-source and commercial APIs are not counted as universities.':''}</p></div>
 <div class="pn w"><h3>University release calendar</h3><p class="mu sub">New APIs each university added in every quarter. Hover a cell to see which ones.</p>${calendar(rs)}</div>
-<div class="pn"><h3>University capability radar</h3>${radar(rs)}</div>
-<div class="pn"><h3>Latest releases</h3>${feed(rs)}</div>
+<div class="pn w"><h3>Latest releases</h3>${feed(rs)}</div>
 <div class="pn w"><h3>Where the APIs sit</h3><p class="mu sub">Each column is a university, split by type of API. A bigger block means more APIs. Click a block to filter.</p>${treemap(rs)}</div>
 <div class="pn w"><h3>Language coverage</h3><div class="ctl"><span class="mu">Split by</span>${seg('ls',[['mod','Modality'],['pv','University'],['type','Type']])}</div>${stack(real,'lang',IS.ls)}${nlm.length?`<p class="mu cap">Language-independent models are not counted here: ${nlm.map(esc).join(', ')}.</p>`:''}</div>
 <div class="pn w"><h3>Coverage matrix</h3><p class="mu sub">Number of APIs for each language, by modality and by university.</p>${heat(real)}</div></div>`}
-function open(m){const rs=BY.get(m),o=rs[0],U=k=>[...new Set(rs.map(r=>r[k]).filter(Boolean))],pv=[...new Set(rs.flatMap(r=>r.pv))],ds=rs.map(r=>r.d).sort(),L=U('lang').sort(),M=U('mod');
+// ===== Details drawer, tabs and click handling =====
+function open(m){const rs=BY.get(m),o=rs[0],U=k=>[...new Set(rs.map(r=>r[k]).filter(Boolean))],pv=[...new Set(rs.flatMap(r=>r.prov))],ds=rs.map(r=>r.d).sort(),L=U('lang').sort(),M=U('mod');
 const dd=(t,a)=>a.length?`<dt>${t}</dt><dd>${a.join('')}</dd>`:'';
 const cell=(l,md)=>{const x=rs.filter(r=>r.lang==l&&r.mod==md);return x.length?`<td><i class="cl" style="--c:${cc('mod',md)}" title="${esc(x.map(r=>r.lvl+', '+r.type+', '+fd(r.d)+', rank '+r.rk).join('\n'))}"></i></td>`:'<td></td>'};
 const st=pv.length>1?`linear-gradient(90deg,${pv.map(p=>PC[p]||'#64748b').join(',')})`:(PC[pv[0]]||'#64748b');
 $('#dw').innerHTML=`<div role="dialog" aria-label="API details"><div class="strip" style="background:${st};height:6px;margin:0 -24px"></div><div style="display:flex;justify-content:space-between;align-items:start"><h2>${esc(o.api)}</h2><button class="ib" id="x" aria-label="Close">✕</button></div>${o.int!=o.api?`<div class="int" style="margin:0">Internal name: ${esc(o.int)}</div>`:''}
 <dl>${dd('Type of API',U('type').map(t=>chip('type',t)+' '))}${dd('University',pv.map(p=>chip('pv',p)+' '+esc(PN[p]||'')+'<br>'))}${dd('Level',U('lvl').map(t=>chip('lvl',t)+' '))}${dd('Modality',M.map(t=>chip('mod',t)+' '))}${dd('Rank',U('rk').map(t=>chip('rk',t)+' '))}${dd('Date added',[ds[0]==ds[ds.length-1]?fd(ds[0]):fd(ds[0])+' to '+fd(ds[ds.length-1])])}${dd('Technical details',U('tech').map(t=>`<div>${esc(t)}</div>`))}${dd('References',U('ref').map(t=>`<div>${esc(t)}</div>`))}${dd('Detailed remarks',U('rem').map(t=>`<div>${esc(t)}</div>`))}</dl>
 <h4>Language coverage (${L.length})</h4><div class="tw"><table class="hm"><tr><th>Language</th>${M.map(x=>`<th style="color:${cc('mod',x)}">${x}</th>`).join('')}</tr>${L.map(l=>`<tr><td>${esc(l)}</td>${M.map(x=>cell(l,x)).join('')}</tr>`).join('')}</table></div><p style="margin-top:16px"><button class="btn" id="ca" data-t="${esc(o.api)}">Copy API name</button></p></div>`;$('#dw').hidden=false}
-const clip=(t,b,l)=>{const f=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()};(navigator.clipboard?navigator.clipboard.writeText(t).catch(f):Promise.resolve(f())).then(()=>{const o=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=o,1400)})};
-const csv=()=>{const e=v=>'"'+String(v).replace(/"/g,'""')+'"';return[['Internal Name','API Name','Modality','Language','Type of API','Level','Date Added','University','Rank','Technical Details','References','Remarks'].map(e).join(','),...filt().map(r=>[r.int,r.api,r.mod,r.lang,r.type,r.lvl,fd(r.d),r.pv.join(', '),r.rk,r.tech,r.ref,r.rem].map(e).join(','))].join('\n')};
+const clip=(t,b)=>{const f=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()};(navigator.clipboard?navigator.clipboard.writeText(t).catch(f):Promise.resolve(f())).then(()=>{const o=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=o,1400)})};
 function tog(k,v){const s=S.f[k];s.has(v)?s.delete(v):s.add(v);S.lim=48;render()}
-function tab(t){S.tab=t;$('#browse').hidden=t!='browse';$('#insights').hidden=t!='insights';$('#admin').hidden=t!='admin';document.querySelector('.hero').hidden=t=='admin';document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab==t));render();admRender()}
+const TABS=['browse','insights','admin'];
+const tabFromHash=()=>{const h=location.hash.slice(1);return TABS.includes(h)?h:'browse'};
+function applyTab(){TABS.forEach(n=>$('#pg-'+n).hidden=n!=S.tab);document.querySelector('.hero').hidden=S.tab=='admin';document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab==S.tab))}
+function tab(t,fromHash){S.tab=t;applyTab();if(!fromHash&&location.hash!='#'+t)location.hash=t;render();admRender()}
+window.addEventListener('hashchange',()=>{const t=tabFromHash();if(t!=S.tab)tab(t,true)});
 document.addEventListener('click',e=>{const t=e.target,c=s=>t.closest(s);let x;
 if(x=c('[data-act]'))act(x.dataset.act,x.dataset.i);
 else if(x=c('[data-is]')){const[k,v]=x.dataset.is.split(':');IS[k]=v;insights(filt())}
 else if(x=c('[data-go]'))tog(x.dataset.k,x.dataset.v);
 else if(x=c('.op,.tile,.ch.rm,.fc'))tog(x.dataset.k,x.dataset.v);
+else if(c('#home')){e.preventDefault();tab('browse');scrollTo({top:0,behavior:'smooth'})}
 else if(x=c('[data-tab]'))tab(x.dataset.tab);
 else if(x=c('.seg button')){S.view=x.dataset.v;render()}
 else if(c('#clr')){S.q='';$('#q').value='';Object.values(S.f).forEach(s=>s.clear());render()}
 else if(c('#mo')){S.lim+=48;render()}
-else if(c('#cp'))clip(csv(),c('#cp'));
 else if(c('#ca'))clip(c('#ca').dataset.t,c('#ca'));
 else if(c('#fb'))$('#side').classList.toggle('open');
 else if(x=c('[data-ex]')){$('#q').value=S.q=x.dataset.ex;S.lim=48;render()}
 else if(x=c('[data-m]'))open(+x.dataset.m);
 else if(c('#x')||t.id=='dw')$('#dw').hidden=true;
 else if(c('#th')){const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=dk?'light':'dark';try{localStorage.setItem('th',d.dataset.theme)}catch(_){}}});
-document.addEventListener('change',e=>{if(e.target.id=='so'){S.sort=e.target.value;render()}});
 document.addEventListener('toggle',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)e.target.open?S.closed.delete(k):S.closed.add(k)},true);
 document.addEventListener('keydown',e=>{if(e.key=='Escape')$('#dw').hidden=true;else if(e.key=='/'&&document.activeElement.tagName!='INPUT'){e.preventDefault();$('#q').focus()}else if(e.key=='Enter'&&e.target.classList.contains('card'))open(+e.target.dataset.m)});
 let tm;$('#q').addEventListener('input',e=>{clearTimeout(tm);tm=setTimeout(()=>{S.q=e.target.value;S.lim=48;render()},120)});
 try{const t=localStorage.getItem('th');if(t)document.documentElement.dataset.theme=t}catch(_){}
 
+// ===== Admin: load data, edit, bulk edit, publish to GitHub =====
 let SRC='',DIRTY=0,AQ='',AL=100,IMP='',SEL=new Set(),AF={type:'',pv:'',rk:'',mod:''},BF='Rank';
 const gcfg=()=>{try{return{branch:'main',path:'data.csv',...JSON.parse(localStorage.getItem('gh')||'{}')}}catch(_){return{branch:'main',path:'data.csv'}}};
 const msg=(s,bad)=>{const e=$('#amsg');if(e){e.textContent=s;e.style.color=bad?'#dc2626':'#16a34a'}};
@@ -1791,7 +1786,7 @@ if(kind=='csv')dl(n+'.csv',new Blob([toCSV(recs)],{type:'text/csv'}));else if(ki
 else try{if(!window.XLSX)await new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(recs,{header:COLS}),'APIs');XLSX.writeFile(wb,n+'.xlsx')}catch(e){alert('Excel export needs to load a small library from the internet. Check your connection or use CSV.')}}
 async function load(){DIRTY=0;SEL.clear();let t;try{const r=await fetch('data.csv?v='+Date.now());if(!r.ok)throw 0;t=await r.text();SRC='data.csv on the server'}catch(e){t=$('#seed').textContent;SRC='the copy built into this page'}ingest(parseCSV(t));boot()}
 function changed(){DIRTY=1;try{localStorage.setItem('draft',JSON.stringify(REC))}catch(_){}ingest(REC);boot()}
-function boot(){const nl=new Set(rows.filter(r=>!r.nl).map(r=>r.lang)).size,np=new Set(rows.flatMap(r=>r.pv)).size;$('#lead').textContent=`${BY.size} APIs from ${np} universities and providers, covering ${nl} languages and scripts. Search by name, language or note, or narrow things down with the filters.`;render();admRender()}
+function boot(){const nl=new Set(rows.filter(r=>!r.nl).map(r=>r.lang)).size,np=new Set(rows.flatMap(r=>r.pv)).size;$('#lead').textContent=`${BY.size} APIs from ${np} universities plus open-source and commercial tools, covering ${nl} languages and scripts. Search by name, language or note, or narrow things down with the filters.`;render();admRender()}
 async function publish(){const c=gcfg(),tk=sessionStorage.getItem('tk');if(!c.owner||!c.repo||!tk)return msg('Fill in owner, repository and token first.',1);
 const u=`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.path}`,H={Authorization:'Bearer '+tk,Accept:'application/vnd.github+json'};msg('Publishing…');
 try{let sha;const g=await fetch(u+'?ref='+encodeURIComponent(c.branch),{headers:H});if(g.ok)sha=(await g.json()).sha;else if(g.status!=404)throw new Error('GitHub returned '+g.status+' while reading the file. Check owner, repository, branch and token.');
@@ -1804,8 +1799,8 @@ function status(){const e=$('#adst');if(e)e.innerHTML=`${REC.length} rows in ${B
 function updBulk(){const e=$('#bkn');if(e)e.textContent=SEL.size+' selected'}
 function bvList(){const e=$('#dl-bv');if(e)e.innerHTML=[...new Set(REC.map(x=>x[BF]).filter(Boolean))].sort().slice(0,300).map(v=>`<option value="${esc(v)}">`).join('')}
 function lite(){DIRTY=1;try{localStorage.setItem('draft',JSON.stringify(REC))}catch(_){}ingest(REC);render();status();admTable();updBulk();bvList()}
-function admRender(){const a=$('#admin');if(a.hidden)return;const c=gcfg();let dr=null;try{dr=localStorage.getItem('draft')}catch(_){}
-const fi=(k,l,v,ty='text')=>`<label class="fl">${l}<input data-cfg="${k}" type="${ty}" value="${esc(v||'')}" autocomplete="off"></label>`,u=k=>[...new Set(REC.map(x=>x[k]).filter(Boolean))].sort(),pvs=[...new Set(rows.flatMap(x=>x.pv))].sort();
+function admRender(){const a=$('#pg-admin');if(a.hidden)return;const c=gcfg();let dr=null;try{dr=localStorage.getItem('draft')}catch(_){}
+const fi=(k,l,v,ty='text')=>`<label class="fl">${l}<input data-cfg="${k}" type="${ty}" value="${esc(v||'')}" autocomplete="off"></label>`,u=k=>[...new Set(REC.map(x=>x[k]).filter(Boolean))].sort(),pvs=[...new Set(rows.flatMap(x=>x.prov))].sort();
 const sel=(id,l,o,v)=>`<label class="fl" style="margin:0">${l}<select data-af="${id}"><option value="">All</option>${o.map(x=>`<option${x==v?' selected':''}>${esc(x)}</option>`).join('')}</select></label>`;
 const rb=(v,c)=>`<button class="btn rb" style="--c:${c}" data-act="rk-${v}">${v=='Unranked'?'Clear rank':v}</button>`;
 a.innerHTML=`<div class="ins"><div class="pn w"><h3>Admin panel</h3><p id="adst" style="margin:0 0 12px;color:var(--mu)"></p>
@@ -1824,7 +1819,7 @@ el.innerHTML=`<p class="mu" style="margin:0 0 8px">${L.length} matching rows</p>
 function form(i){const nw=i==null,r=nw?{'Date Added':'',Level:'Page'}:REC[i],uniq=k=>[...new Set(REC.map(x=>x[k]).filter(Boolean))].sort();
 const f=(k,l,ls)=>`<label class="fl">${l}<input data-f="${k}" value="${esc(r[k]||'')}"${ls?` list="dl-${ls}"`:''}></label>`,ta=(k,l)=>`<label class="fl">${l}<textarea data-f="${k}" rows="2">${esc(r[k]||'')}</textarea></label>`;
 const ck=(n,vs,sel)=>vs.map(v=>`<label class="cb"><input type="checkbox" data-g="${n}" value="${esc(v)}"${sel.includes(v)?' checked':''}>${esc(v)}</label>`).join('');
-const provs=[...new Set(rows.flatMap(x=>x.pv))].sort(),cur=(r.IITD||'').split(',').map(s=>s.trim()),langs=[...new Set(rows.filter(x=>!x.nl).map(x=>x.lang))].sort(),dv=pd(r['Date Added']||'');
+const provs=[...new Set(rows.flatMap(x=>x.prov))].sort(),cur=(r.IITD||'').split(',').map(s=>s.trim()),langs=[...new Set(rows.filter(x=>!x.nl).map(x=>x.lang))].sort(),dv=pd(r['Date Added']||'');
 const today=new Date(),iso=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
 $('#dw').innerHTML=`<div role="dialog" aria-label="Edit API"><div style="display:flex;justify-content:space-between;align-items:center;padding-top:16px"><h2 style="font-family:'Bricolage Grotesque',sans-serif;margin:0">${nw?'Add a new API':'Edit row'}</h2><button class="ib" data-act="close" aria-label="Close">✕</button></div>
 <datalist id="dl-type">${uniq('Type of API').map(v=>`<option value="${esc(v)}">`).join('')}</datalist><datalist id="dl-lvl"><option>Page<option>Word<option>Line<option>Character<option>Table</datalist><datalist id="dl-rank"><option>High<option>Medium<option>Low</datalist><datalist id="dl-mod"><option>Printed<option>Handwritten<option>SceneText</datalist>
@@ -1854,16 +1849,19 @@ else if(a=='bsel-none'){SEL.clear();admTable();updBulk()}
 else if(a=='bdel'){if(!SEL.size)return bm('Select some rows first.');if(confirm('Delete '+SEL.size+' selected rows?')){const n=SEL.size;REC=REC.filter(r=>!SEL.has(r));SEL.clear();lite();bm(n+' rows deleted. Publish to make it live.')}}
 else if(a.startsWith('x')){const[k,f]=a.split('-');exp(f,k=='xa'?REC:fRecs())}}
 document.addEventListener('input',e=>{if(e.target.id=='aq'){AQ=e.target.value;AL=100;admTable()}});
-document.addEventListener('change',e=>{const k=e.target.dataset&&e.target.dataset.cfg;try{if(k=='tk')sessionStorage.setItem('tk',e.target.value.trim());else if(k){const c=gcfg();c[k]=e.target.value.trim();localStorage.setItem('gh',JSON.stringify(c))}}catch(_){}
-if(e.target.id=='imp'&&e.target.files[0]){const el=e.target;el.files[0].text().then(x=>{try{const n=parseCSV(x);if(!n.length||!('API Name' in n[0]))throw 0;REC=IMP=='imr'?n:REC.concat(n);SEL.clear();changed()}catch(_){msg('That file is not a CSV with the same columns as data.csv.',1)}el.value=''})}});
-try{const th=localStorage.getItem('th');if(th)document.documentElement.dataset.theme=th}catch(_){}
-document.addEventListener('change',e=>{const d=e.target.dataset||{};
-if(d.sel!=null){const r=REC[+d.sel];e.target.checked?SEL.add(r):SEL.delete(r);updBulk()}
-else if('selall' in d){LST.slice(0,AL).forEach(j=>e.target.checked?SEL.add(REC[j]):SEL.delete(REC[j]));admTable();updBulk()}
-else if(d.af){AF[d.af]=e.target.value;AL=100;admTable()}
-else if(e.target.id=='bf'){BF=e.target.value;bvList()}});
+function saveCfg(k,v){try{if(k=='tk')sessionStorage.setItem('tk',v.trim());else{const c=gcfg();c[k]=v.trim();localStorage.setItem('gh',JSON.stringify(c))}}catch(_){}}
+function importCSV(el){el.files[0].text().then(x=>{try{const n=parseCSV(x);if(!n.length||!('API Name' in n[0]))throw 0;REC=IMP=='imr'?n:REC.concat(n);SEL.clear();changed()}catch(_){msg('That file is not a CSV with the same columns as data.csv.',1)}el.value=''})}
+document.addEventListener('change',e=>{const el=e.target,d=el.dataset||{};
+if(el.id=='so'){S.sort=el.value;render()}
+else if(el.id=='imp'&&el.files[0])importCSV(el);
+else if(d.cfg)saveCfg(d.cfg,el.value);
+else if(d.sel!=null){const r=REC[+d.sel];el.checked?SEL.add(r):SEL.delete(r);updBulk()}
+else if('selall' in d){LST.slice(0,AL).forEach(j=>el.checked?SEL.add(REC[j]):SEL.delete(REC[j]));admTable();updBulk()}
+else if(d.af){AF[d.af]=el.value;AL=100;admTable()}
+else if(el.id=='bf'){BF=el.value;bvList()}});
 const TT=document.createElement('div');TT.className='tt';TT.hidden=true;document.body.appendChild(TT);
 document.addEventListener('mousemove',e=>{const x=e.target.closest&&e.target.closest('[data-tt]');if(!x){TT.hidden=true;return}TT.innerHTML=x.dataset.tt;TT.hidden=false;const w=TT.offsetWidth,h=TT.offsetHeight;let l=e.clientX+14,y=e.clientY+14;if(l+w>innerWidth-8)l=e.clientX-w-14;if(y+h>innerHeight-8)y=e.clientY-h-14;TT.style.left=Math.max(8,l)+'px';TT.style.top=Math.max(8,y)+'px'});
 document.addEventListener('mouseleave',()=>{TT.hidden=true});
+S.tab=tabFromHash();applyTab();
 load();
 </script></body></html>
